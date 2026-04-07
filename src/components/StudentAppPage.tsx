@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Play, User, Star, Lock, CheckCircle, Flame, BookOpen, Puzzle } from "lucide-react";
+import { Play, User, Star, Lock, CheckCircle, Flame, BookOpen, Puzzle, ArrowRight, Smartphone, ScanFace, Brain, Gamepad2, TrendingUp, Award } from "lucide-react";
 import { useState } from "react";
 
 const PhoneFrame = ({ children, title }: { children: React.ReactNode; title: string }) => (
@@ -14,16 +14,106 @@ const PhoneFrame = ({ children, title }: { children: React.ReactNode; title: str
   </div>
 );
 
+const workflowSteps = [
+  { icon: Smartphone, title: "Open App", desc: "Child logs into the app with a simple tap", color: "from-blue-500 to-cyan-400", emoji: "📱" },
+  { icon: ScanFace, title: "Quick Assessment", desc: "AI identifies learning gaps through fun tasks", color: "from-violet-500 to-purple-400", emoji: "🧪" },
+  { icon: Brain, title: "AI Personalization", desc: "System creates a custom learning path", color: "from-pink-500 to-rose-400", emoji: "🤖" },
+  { icon: Gamepad2, title: "Play & Learn", desc: "Interactive games designed for the child", color: "from-amber-500 to-orange-400", emoji: "🎮" },
+  { icon: TrendingUp, title: "Track Progress", desc: "Real-time improvement tracking", color: "from-emerald-500 to-green-400", emoji: "📈" },
+  { icon: Award, title: "Earn Rewards", desc: "Badges & points keep motivation high", color: "from-yellow-500 to-amber-400", emoji: "🏆" },
+];
+
 const StudentAppPage = () => {
   const [activeScreen, setActiveScreen] = useState<"home" | "profile" | "activity">("home");
+  const [activeStep, setActiveStep] = useState<number | null>(null);
 
   return (
-    <div className="space-y-8 pb-8">
+    <div className="space-y-10 pb-8">
       <div className="text-center">
         <h2 className="font-display text-2xl font-bold">Student App</h2>
         <p className="text-muted-foreground text-sm mt-1">Child-friendly mobile experience</p>
       </div>
 
+      {/* ===== Visual Workflow ===== */}
+      <section className="relative">
+        <h3 className="font-display text-xl font-bold text-center mb-2">How It Works for Students</h3>
+        <p className="text-muted-foreground text-sm text-center mb-8">A simple 6-step journey from login to learning mastery</p>
+
+        {/* Desktop: horizontal timeline */}
+        <div className="hidden md:block relative">
+          {/* connecting line */}
+          <div className="absolute top-16 left-[8%] right-[8%] h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full opacity-30" />
+          <motion.div className="absolute top-16 left-[8%] h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full"
+            initial={{ width: 0 }} animate={{ width: "84%" }} transition={{ duration: 2, delay: 0.5 }} />
+
+          <div className="grid grid-cols-6 gap-3">
+            {workflowSteps.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.15 }}
+                  onHoverStart={() => setActiveStep(i)}
+                  onHoverEnd={() => setActiveStep(null)}
+                  className="flex flex-col items-center text-center group cursor-pointer"
+                >
+                  {/* Step number */}
+                  <motion.div
+                    animate={activeStep === i ? { scale: 1.15 } : { scale: 1 }}
+                    className={`relative w-[4.5rem] h-[4.5rem] rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow mb-3`}
+                  >
+                    <Icon className="w-8 h-8 text-white" />
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-card rounded-full shadow-md flex items-center justify-center">
+                      <span className="text-xs font-bold text-foreground">{i + 1}</span>
+                    </div>
+                    {activeStep === i && (
+                      <motion.div
+                        layoutId="stepGlow"
+                        className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.color} opacity-30 blur-xl`}
+                      />
+                    )}
+                  </motion.div>
+                  <p className="font-display font-bold text-sm">{step.title}</p>
+                  <p className="text-muted-foreground text-[11px] mt-1 leading-tight px-1">{step.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Mobile: vertical timeline */}
+        <div className="md:hidden relative pl-10">
+          <div className="absolute left-[1.1rem] top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent opacity-30" />
+          {workflowSteps.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 + i * 0.12 }}
+                className="relative flex items-start gap-4 mb-6 last:mb-0"
+              >
+                <div className={`absolute left-[-1.45rem] w-10 h-10 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md z-10`}>
+                  <Icon className="w-5 h-5 text-white" />
+                </div>
+                <div className="bg-card rounded-2xl shadow-card p-4 flex-1 ml-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-lg">{step.emoji}</span>
+                    <p className="font-display font-bold text-sm">{step.title}</p>
+                    <span className="ml-auto text-[10px] font-bold bg-muted rounded-full px-2 py-0.5 text-muted-foreground">Step {i + 1}</span>
+                  </div>
+                  <p className="text-muted-foreground text-xs">{step.desc}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ===== Screens Selector ===== */}
       <div className="flex justify-center gap-2 mb-6">
         {(["home", "profile", "activity"] as const).map(s => (
           <button key={s} onClick={() => setActiveScreen(s)}
