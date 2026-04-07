@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import TabNavigation from "@/components/TabNavigation";
+import BrandHeader from "@/components/BrandHeader";
 import OverviewPage from "@/components/OverviewPage";
 import StudentAppPage from "@/components/StudentAppPage";
 import AssessmentPage from "@/components/AssessmentPage";
@@ -33,7 +34,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-4 pt-6 pb-24">
+      <BrandHeader />
+      <div className="max-w-4xl mx-auto px-4 pt-16 pb-24">
         <AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
             <Page />
