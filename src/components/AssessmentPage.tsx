@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, Headphones, CheckCircle, Circle, Eye, Ear, BookOpen, Shapes } from "lucide-react";
+import { Volume2, Headphones, CheckCircle, Circle, Eye, Ear, BookOpen, Shapes, ClipboardCheck, Brain, Sparkles, BarChart3, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 const assessments = [
@@ -10,18 +10,128 @@ const assessments = [
   { id: "pattern", label: "Patterns", icon: Shapes },
 ];
 
+const flowSteps = [
+  { icon: ClipboardCheck, title: "Start Assessment", desc: "Child begins a fun, game-like test session", color: "from-blue-500 to-indigo-500", emoji: "📋", detail: "Tests are designed to feel like play, not exams" },
+  { icon: BookOpen, title: "Multi-Domain Tests", desc: "Reading, Memory, Attention, Listening & Patterns", color: "from-violet-500 to-fuchsia-500", emoji: "🧩", detail: "5 core cognitive areas are evaluated" },
+  { icon: Brain, title: "AI Scoring", desc: "Real-time analysis of each response", color: "from-pink-500 to-rose-500", emoji: "🤖", detail: "Machine learning models detect learning patterns" },
+  { icon: Sparkles, title: "Identify Gaps", desc: "Pinpoint exact areas needing support", color: "from-amber-500 to-orange-500", emoji: "🔍", detail: "Dyslexia, ADHD, and slow-learning markers detected" },
+  { icon: BarChart3, title: "Generate Report", desc: "Detailed learning ability profile created", color: "from-emerald-500 to-teal-500", emoji: "📊", detail: "Shared with teachers, parents & government dashboard" },
+];
+
 const AssessmentPage = () => {
   const [active, setActive] = useState("reading");
   const [selected, setSelected] = useState<string | null>(null);
   const [memoryRevealed, setMemoryRevealed] = useState(true);
   const [tappedCircles, setTappedCircles] = useState<number[]>([]);
+  const [expandedFlow, setExpandedFlow] = useState<number | null>(null);
 
   return (
-    <div className="space-y-6 pb-8">
+    <div className="space-y-8 pb-8">
       <div className="text-center">
         <h2 className="font-display text-2xl font-bold">Assessment Module</h2>
         <p className="text-muted-foreground text-sm mt-1">Interactive learning ability tests</p>
       </div>
+
+      {/* ===== Visual Workflow ===== */}
+      <section className="bg-card rounded-3xl shadow-card p-6 md:p-8 overflow-hidden">
+        <h3 className="font-display text-lg font-bold text-center mb-1">Assessment Workflow</h3>
+        <p className="text-muted-foreground text-xs text-center mb-6">How we evaluate every child — step by step</p>
+
+        {/* Horizontal flow with cards */}
+        <div className="hidden md:flex items-start gap-2 relative">
+          {flowSteps.map((step, i) => {
+            const Icon = step.icon;
+            const isExpanded = expandedFlow === i;
+            return (
+              <div key={step.title} className="flex items-start flex-1">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + i * 0.12 }}
+                  onClick={() => setExpandedFlow(isExpanded ? null : i)}
+                  className="flex flex-col items-center text-center cursor-pointer group flex-1"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg mb-3`}
+                  >
+                    <Icon className="w-8 h-8 text-white" />
+                    <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-card rounded-full shadow flex items-center justify-center">
+                      <span className="text-[10px] font-bold">{i + 1}</span>
+                    </div>
+                  </motion.div>
+                  <p className="font-display font-bold text-xs leading-tight">{step.title}</p>
+                  <p className="text-muted-foreground text-[10px] mt-1 leading-tight">{step.desc}</p>
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-2 bg-muted rounded-xl px-3 py-2"
+                      >
+                        <p className="text-[10px] text-foreground font-medium">{step.detail}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+                {i < flowSteps.length - 1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 + i * 0.15 }}
+                    className="mt-6 mx-1 flex-shrink-0"
+                  >
+                    <ArrowRight className="w-5 h-5 text-muted-foreground/40" />
+                  </motion.div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Mobile: vertical cards */}
+        <div className="md:hidden space-y-3">
+          {flowSteps.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.1 }}
+                onClick={() => setExpandedFlow(expandedFlow === i ? null : i)}
+                className="flex items-center gap-4 bg-muted/60 rounded-2xl p-4 cursor-pointer hover:bg-muted transition-colors"
+              >
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-md flex-shrink-0 relative`}>
+                  <Icon className="w-6 h-6 text-white" />
+                  <span className="absolute -top-1 -left-1 w-5 h-5 bg-card rounded-full shadow text-[10px] font-bold flex items-center justify-center">{i + 1}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{step.emoji}</span>
+                    <p className="font-display font-bold text-sm">{step.title}</p>
+                  </div>
+                  <p className="text-muted-foreground text-xs">{step.desc}</p>
+                  <AnimatePresence>
+                    {expandedFlow === i && (
+                      <motion.p
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="text-xs text-primary font-medium mt-1"
+                      >
+                        💡 {step.detail}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
 
       {/* Assessment tabs */}
       <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
