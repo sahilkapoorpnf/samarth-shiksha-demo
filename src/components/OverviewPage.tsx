@@ -7,8 +7,8 @@ import {
   Lightbulb, Heart, Timer, Mic, PenTool, Calculator
 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
-// Video banner: uses Lovable CDN asset, with public/ fallback for local dev
-const BANNER_VIDEO_URL = "/__l5e/assets-v1/37feb0ea-9ae4-4c9d-b1eb-f0d18d0c0eba/happy-flow-banner.mp4";
+// Banner video: served from public/ folder for both local and deployed use
+const BANNER_VIDEO_URL = "/happy-flow-banner.mp4";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
