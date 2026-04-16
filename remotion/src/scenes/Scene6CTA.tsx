@@ -1,4 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
+import { HEADING_FONT, BODY_FONT, textShadow, subtleShadow } from "../fonts";
 
 export const Scene6CTA = () => {
   const frame = useCurrentFrame();
@@ -15,7 +16,6 @@ export const Scene6CTA = () => {
   const ctaScale = spring({ frame: frame - 100, fps, config: { damping: 10, stiffness: 80 } });
   const ctaOpacity = interpolate(frame, [100, 115], [0, 1], { extrapolateRight: "clamp" });
 
-  // Pulsing glow
   const pulseScale = interpolate(frame % 60, [0, 30, 60], [1, 1.08, 1]);
 
   const features = [
@@ -29,7 +29,6 @@ export const Scene6CTA = () => {
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      {/* Big glow */}
       <div style={{
         position: "absolute",
         width: 800,
@@ -45,52 +44,43 @@ export const Scene6CTA = () => {
         alignItems: "center",
         gap: 30,
       }}>
-        {/* Logo */}
         <div style={{
           opacity: logoOpacity,
           transform: `scale(${interpolate(logoScale, [0, 1], [0.5, 1])})`,
         }}>
           <Img
             src={staticFile("images/bitdecentro-logo.png")}
-            style={{ height: 80 }}
+            style={{ height: 90 }}
           />
         </div>
 
-        {/* Title */}
         <div style={{
           opacity: titleOpacity,
           transform: `translateY(${titleY}px)`,
           textAlign: "center",
         }}>
           <div style={{
-            fontFamily: "sans-serif",
-            fontSize: 60,
+            fontFamily: HEADING_FONT,
+            fontSize: 68,
             fontWeight: 800,
             color: "white",
             lineHeight: 1.15,
+            textShadow,
           }}>
             Empowering{" "}
-            <span style={{
-              background: "linear-gradient(90deg, hsl(215, 85%, 60%), hsl(158, 55%, 55%))",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}>
-              Every Child
-            </span>
+            <span style={{ color: "hsl(215, 85%, 70%)" }}>Every Child</span>
             <br />
             to Learn & Grow
           </div>
         </div>
 
-        {/* Features grid */}
         <div style={{
           opacity: featureOpacity,
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: 14,
-          maxWidth: 900,
+          gap: 16,
+          maxWidth: 960,
           marginTop: 10,
         }}>
           {features.map((f, i) => {
@@ -99,14 +89,15 @@ export const Scene6CTA = () => {
             return (
               <div key={f} style={{
                 opacity: pillOpacity,
-                padding: "12px 24px",
+                padding: "14px 28px",
                 borderRadius: 50,
                 background: "hsl(220, 25%, 16%)",
-                border: "1.5px solid hsl(215, 50%, 35%)",
-                fontFamily: "sans-serif",
-                fontSize: 17,
-                fontWeight: 600,
-                color: "hsl(215, 85%, 75%)",
+                border: "2px solid hsl(215, 50%, 40%)",
+                fontFamily: BODY_FONT,
+                fontSize: 20,
+                fontWeight: 700,
+                color: "hsl(215, 90%, 80%)",
+                textShadow: subtleShadow,
               }}>
                 ✓ {f}
               </div>
@@ -114,7 +105,6 @@ export const Scene6CTA = () => {
           })}
         </div>
 
-        {/* CTA */}
         <div style={{
           opacity: ctaOpacity,
           transform: `scale(${interpolate(ctaScale, [0, 1], [0.7, 1])})`,
@@ -122,22 +112,25 @@ export const Scene6CTA = () => {
           textAlign: "center",
         }}>
           <div style={{
-            padding: "20px 60px",
+            padding: "22px 70px",
             borderRadius: 60,
             background: "linear-gradient(135deg, hsl(215, 85%, 50%), hsl(230, 75%, 55%))",
-            fontFamily: "sans-serif",
-            fontSize: 26,
-            fontWeight: 700,
+            fontFamily: HEADING_FONT,
+            fontSize: 30,
+            fontWeight: 800,
             color: "white",
             boxShadow: "0 15px 50px hsl(215, 85%, 50%, 0.4)",
+            textShadow: "0 2px 10px rgba(0,0,0,0.4)",
           }}>
             Built by BitDecentro
           </div>
           <div style={{
             marginTop: 20,
-            fontFamily: "sans-serif",
-            fontSize: 20,
-            color: "hsl(220, 15%, 55%)",
+            fontFamily: BODY_FONT,
+            fontSize: 24,
+            fontWeight: 600,
+            color: "hsl(220, 20%, 70%)",
+            textShadow: subtleShadow,
           }}>
             www.bitdecentro.com
           </div>

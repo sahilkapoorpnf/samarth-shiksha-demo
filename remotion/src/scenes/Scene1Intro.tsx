@@ -1,4 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
+import { HEADING_FONT, BODY_FONT, textShadow, subtleShadow } from "../fonts";
 
 export const Scene1Intro = () => {
   const frame = useCurrentFrame();
@@ -14,13 +15,10 @@ export const Scene1Intro = () => {
   const subtitleY = interpolate(spring({ frame: frame - 45, fps, config: { damping: 20 } }), [0, 1], [40, 0]);
 
   const taglineOpacity = interpolate(frame, [70, 90], [0, 1], { extrapolateRight: "clamp" });
-  
-  // Floating decorative elements
   const floatY = interpolate(frame, [0, 60, 130], [0, -8, 0]);
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      {/* Glow behind logo */}
       <div style={{
         position: "absolute",
         width: 500,
@@ -31,7 +29,6 @@ export const Scene1Intro = () => {
         transform: `scale(${logoScale})`,
       }} />
 
-      {/* Logo */}
       <div style={{
         display: "flex",
         flexDirection: "column",
@@ -42,7 +39,7 @@ export const Scene1Intro = () => {
         <Img
           src={staticFile("images/bitdecentro-logo.png")}
           style={{
-            height: 90,
+            height: 100,
             opacity: logoOpacity,
             transform: `scale(${logoScale})`,
           }}
@@ -54,12 +51,13 @@ export const Scene1Intro = () => {
           textAlign: "center",
         }}>
           <div style={{
-            fontFamily: "sans-serif",
-            fontSize: 72,
+            fontFamily: HEADING_FONT,
+            fontSize: 80,
             fontWeight: 800,
             color: "white",
             letterSpacing: -2,
             lineHeight: 1.1,
+            textShadow,
           }}>
             Samarth Shiksha
           </div>
@@ -71,13 +69,11 @@ export const Scene1Intro = () => {
           textAlign: "center",
         }}>
           <div style={{
-            fontFamily: "sans-serif",
-            fontSize: 32,
-            fontWeight: 500,
-            background: "linear-gradient(90deg, hsl(215, 85%, 65%), hsl(158, 55%, 55%))",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            fontFamily: HEADING_FONT,
+            fontSize: 36,
+            fontWeight: 700,
+            color: "hsl(215, 85%, 75%)",
+            textShadow,
           }}>
             AI-Powered Learning Disability Detection
           </div>
@@ -89,12 +85,13 @@ export const Scene1Intro = () => {
           marginTop: 10,
         }}>
           <div style={{
-            fontFamily: "sans-serif",
-            fontSize: 22,
-            fontWeight: 400,
-            color: "hsl(220, 15%, 65%)",
-            letterSpacing: 3,
+            fontFamily: BODY_FONT,
+            fontSize: 26,
+            fontWeight: 600,
+            color: "hsl(220, 30%, 80%)",
+            letterSpacing: 6,
             textTransform: "uppercase",
+            textShadow: subtleShadow,
           }}>
             Screen • Detect • Support • Grow
           </div>
