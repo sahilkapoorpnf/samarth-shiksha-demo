@@ -1,56 +1,93 @@
 import { motion } from "framer-motion";
-import { Star, Trophy, Flame, Award, Medal, Target, Zap } from "lucide-react";
+import { Star, Trophy, Flame, Award, Medal, Target, Zap, Gift, Crown, Heart } from "lucide-react";
 
 const badges = [
-  { name: "Reading Star", emoji: "📖", earned: true, desc: "Complete 10 reading exercises" },
-  { name: "Focus Hero", emoji: "🎯", earned: true, desc: "Score 80%+ on attention tests" },
-  { name: "Memory Master", emoji: "🧠", earned: true, desc: "Win 5 memory games" },
-  { name: "Quick Learner", emoji: "⚡", earned: false, desc: "Complete 3 lessons in a day" },
-  { name: "Super Listener", emoji: "👂", earned: false, desc: "Pass all listening tests" },
-  { name: "Pattern Pro", emoji: "🔷", earned: true, desc: "Solve 20 pattern puzzles" },
+  { name: "Reading Star", emoji: "📖", earned: true, desc: "Complete 10 reading exercises", rarity: "Common" },
+  { name: "Focus Hero", emoji: "🎯", earned: true, desc: "Score 80%+ on attention tests", rarity: "Rare" },
+  { name: "Memory Master", emoji: "🧠", earned: true, desc: "Win 5 memory games", rarity: "Common" },
+  { name: "Math Wizard", emoji: "🔢", earned: true, desc: "Solve 20 math problems", rarity: "Common" },
+  { name: "Quick Learner", emoji: "⚡", earned: false, desc: "Complete 3 lessons in a day", rarity: "Rare" },
+  { name: "Super Listener", emoji: "👂", earned: false, desc: "Pass all listening tests", rarity: "Epic" },
+  { name: "Pattern Pro", emoji: "🔷", earned: true, desc: "Solve 20 pattern puzzles", rarity: "Rare" },
+  { name: "Writing Ace", emoji: "✍️", earned: false, desc: "Perfect score in spelling", rarity: "Epic" },
+  { name: "Champion", emoji: "🏆", earned: false, desc: "Earn all other badges", rarity: "Legendary" },
+];
+
+const dailyTasks = [
+  { task: "Complete 1 reading exercise", points: 10, done: true },
+  { task: "Play a memory game", points: 15, done: true },
+  { task: "Finish attention training", points: 20, done: false },
+  { task: "Listen to a story", points: 10, done: false },
 ];
 
 const leaderboard = [
-  { name: "Priya S.", points: 450, rank: 1 },
-  { name: "Arjun K.", points: 380, rank: 2 },
-  { name: "Ravi M.", points: 340, rank: 3 },
-  { name: "Sneha P.", points: 290, rank: 4 },
-  { name: "Amit R.", points: 250, rank: 5 },
+  { name: "Priya S.", points: 450, rank: 1, avatar: "👧" },
+  { name: "Arjun K.", points: 380, rank: 2, avatar: "🧒" },
+  { name: "Ravi M.", points: 340, rank: 3, avatar: "👦" },
+  { name: "Sneha P.", points: 290, rank: 4, avatar: "👧" },
+  { name: "Amit R.", points: 250, rank: 5, avatar: "👦" },
 ];
 
 const GamificationPage = () => (
   <div className="space-y-6 pb-8">
     <div className="text-center">
-      <h2 className="font-display text-2xl font-bold">Rewards & Gamification</h2>
-      <p className="text-muted-foreground text-sm mt-1">Stay motivated with points and badges</p>
+      <div className="w-16 h-16 gradient-warm rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <Trophy className="w-8 h-8 text-primary-foreground" />
+      </div>
+      <h2 className="section-title">Rewards & Gamification</h2>
+      <p className="section-subtitle">Points, badges, streaks, and leaderboards keep children motivated and engaged in their learning journey</p>
     </div>
 
     {/* Stats row */}
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-4 gap-3">
       {[
         { icon: Star, value: "380", label: "Points", color: "gradient-warm" },
-        { icon: Flame, value: "5 Days", label: "Streak", color: "gradient-hero" },
-        { icon: Trophy, value: "4/6", label: "Badges", color: "gradient-primary" },
+        { icon: Flame, value: "5", label: "Day Streak", color: "gradient-hero" },
+        { icon: Trophy, value: "5/9", label: "Badges", color: "gradient-primary" },
+        { icon: Crown, value: "#2", label: "Class Rank", color: "gradient-purple" },
       ].map((s, i) => (
         <motion.div key={s.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
           className={`${s.color} text-primary-foreground rounded-2xl p-4 text-center shadow-card`}>
-          <s.icon className="w-6 h-6 mx-auto mb-1" />
+          <s.icon className="w-5 h-5 mx-auto mb-1" />
           <p className="font-display font-extrabold text-xl">{s.value}</p>
-          <p className="text-xs opacity-80">{s.label}</p>
+          <p className="text-[10px] opacity-80">{s.label}</p>
         </motion.div>
       ))}
     </div>
 
+    {/* Daily Tasks */}
+    <div className="bg-card rounded-3xl shadow-card p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-display font-bold flex items-center gap-2"><Target className="w-5 h-5 text-primary" /> Daily Missions</h3>
+        <span className="text-xs font-bold text-secondary bg-secondary/10 px-2.5 py-1 rounded-full">2/4 done</span>
+      </div>
+      <div className="space-y-2">
+        {dailyTasks.map((t, i) => (
+          <motion.div key={t.task} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
+            className={`flex items-center gap-3 p-3 rounded-xl ${t.done ? "bg-secondary/10" : "bg-muted"}`}>
+            <div className={`w-6 h-6 rounded-full flex items-center justify-center ${t.done ? "bg-secondary" : "border-2 border-muted-foreground/30"}`}>
+              {t.done && <span className="text-xs text-secondary-foreground">✓</span>}
+            </div>
+            <span className={`text-sm flex-1 ${t.done ? "line-through text-muted-foreground" : "font-medium"}`}>{t.task}</span>
+            <span className="text-xs font-bold text-accent flex items-center gap-1"><Zap className="w-3 h-3" />{t.points} pts</span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+
     {/* Badges */}
     <div className="bg-card rounded-3xl shadow-card p-6">
-      <h3 className="font-display font-bold mb-4">Badges Collection</h3>
-      <div className="grid grid-cols-3 gap-4">
+      <h3 className="font-display font-bold mb-4 flex items-center gap-2"><Award className="w-5 h-5 text-accent" /> Badge Collection</h3>
+      <div className="grid grid-cols-3 gap-3">
         {badges.map((b, i) => (
-          <motion.div key={b.name} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }}
-            className={`text-center p-3 rounded-2xl transition-all ${b.earned ? "bg-secondary/10 border border-secondary/30" : "bg-muted opacity-50"}`}>
-            <span className="text-3xl block mb-2">{b.emoji}</span>
-            <p className="font-display font-bold text-xs">{b.name}</p>
-            <p className="text-[10px] text-muted-foreground mt-1">{b.desc}</p>
+          <motion.div key={b.name} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.06 }}
+            className={`text-center p-3 rounded-2xl transition-all ${b.earned ? "bg-secondary/10 border border-secondary/30" : "bg-muted opacity-40"}`}>
+            <span className="text-3xl block mb-1">{b.emoji}</span>
+            <p className="font-display font-bold text-[11px]">{b.name}</p>
+            <p className="text-[9px] text-muted-foreground mt-0.5">{b.desc}</p>
+            <span className={`text-[8px] font-bold mt-1 inline-block px-1.5 py-0.5 rounded-full ${
+              b.rarity === "Legendary" ? "bg-accent/20 text-accent" : b.rarity === "Epic" ? "bg-purple-500/20 text-purple-600" : b.rarity === "Rare" ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"
+            }`}>{b.rarity}</span>
           </motion.div>
         ))}
       </div>
@@ -59,17 +96,28 @@ const GamificationPage = () => (
     {/* Leaderboard */}
     <div className="bg-card rounded-3xl shadow-card p-6">
       <h3 className="font-display font-bold mb-4 flex items-center gap-2"><Medal className="w-5 h-5 text-accent" /> Class Leaderboard</h3>
+      <p className="text-xs text-muted-foreground mb-3">⚠️ Child-safe: Only first name and initial shown</p>
       <div className="space-y-2">
         {leaderboard.map((s, i) => (
           <motion.div key={s.name} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
             className={`flex items-center gap-3 p-3 rounded-xl ${i === 1 ? "bg-primary/10 border border-primary/30" : "bg-muted"}`}>
             <span className={`w-8 h-8 rounded-full flex items-center justify-center font-display font-bold text-sm ${
-              i === 0 ? "gradient-warm text-accent-foreground" : i === 1 ? "gradient-primary text-primary-foreground" : "bg-border text-muted-foreground"
+              i === 0 ? "gradient-warm text-accent-foreground" : i === 1 ? "gradient-primary text-primary-foreground" : i === 2 ? "gradient-teal text-primary-foreground" : "bg-border text-muted-foreground"
             }`}>{s.rank}</span>
+            <span className="text-xl">{s.avatar}</span>
             <span className="font-bold text-sm flex-1">{s.name}</span>
             <span className="font-display font-bold text-sm text-primary">{s.points} pts</span>
           </motion.div>
         ))}
+      </div>
+    </div>
+
+    {/* Motivation Science */}
+    <div className="bg-primary/5 border border-primary/15 rounded-2xl p-5 flex items-start gap-3">
+      <Heart className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+      <div>
+        <h4 className="font-display font-bold text-sm">Why Gamification Works</h4>
+        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">Research shows gamification increases student engagement by 60% and learning retention by 40%. Our reward system is based on Applied Behavior Analysis (ABA) principles — positive reinforcement through immediate feedback and tangible rewards.</p>
       </div>
     </div>
   </div>

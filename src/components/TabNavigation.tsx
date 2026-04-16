@@ -1,21 +1,24 @@
 import { motion } from "framer-motion";
 import {
   LayoutDashboard, Smartphone, ClipboardCheck, Gamepad2,
-  GraduationCap, Users, Building2, Monitor, TrendingUp, Brain, Eye
+  GraduationCap, Users, Building2, Monitor, TrendingUp, Brain, Eye,
+  HeartPulse, FlaskConical
 } from "lucide-react";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "disabilities", label: "Disabilities", icon: HeartPulse },
   { id: "student", label: "Student App", icon: Smartphone },
   { id: "assessment", label: "Assessment", icon: ClipboardCheck },
   { id: "analysis", label: "AI Analysis", icon: Brain },
-  { id: "games", label: "Learning Games", icon: Gamepad2 },
-  { id: "gamification", label: "Gamification", icon: TrendingUp },
+  { id: "games", label: "Games", icon: Gamepad2 },
+  { id: "gamification", label: "Rewards", icon: TrendingUp },
   { id: "teacher", label: "Teacher", icon: GraduationCap },
-  { id: "parent", label: "Parent View", icon: Users },
+  { id: "parent", label: "Parent", icon: Users },
   { id: "government", label: "Government", icon: Building2 },
   { id: "hardware", label: "Hardware", icon: Monitor },
   { id: "impact", label: "Impact", icon: Eye },
+  { id: "research", label: "Research", icon: FlaskConical },
 ];
 
 interface TabNavigationProps {
@@ -35,7 +38,7 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className={`relative flex flex-col items-center gap-1 px-3 py-3 min-w-[80px] transition-colors ${
+                className={`relative flex flex-col items-center gap-1 px-3 py-3 min-w-[72px] transition-colors ${
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -46,8 +49,8 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <Icon className="w-5 h-5" />
-                <span className="text-[10px] font-medium whitespace-nowrap">{tab.label}</span>
+                <Icon className="w-4.5 h-4.5" style={{ width: 18, height: 18 }} />
+                <span className="text-[9px] font-semibold whitespace-nowrap">{tab.label}</span>
               </button>
             );
           })}

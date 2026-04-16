@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import TabNavigation from "@/components/TabNavigation";
 import BrandHeader from "@/components/BrandHeader";
 import OverviewPage from "@/components/OverviewPage";
+import DisabilitiesPage from "@/components/DisabilitiesPage";
 import StudentAppPage from "@/components/StudentAppPage";
 import AssessmentPage from "@/components/AssessmentPage";
 import AIAnalysisPage from "@/components/AIAnalysisPage";
@@ -13,9 +14,11 @@ import ParentViewPage from "@/components/ParentViewPage";
 import GovernmentDashboard from "@/components/GovernmentDashboard";
 import HardwarePage from "@/components/HardwarePage";
 import ImpactPage from "@/components/ImpactPage";
+import ResearchPage from "@/components/ResearchPage";
 
 const pages: Record<string, React.ComponentType> = {
   overview: OverviewPage,
+  disabilities: DisabilitiesPage,
   student: StudentAppPage,
   assessment: AssessmentPage,
   analysis: AIAnalysisPage,
@@ -26,6 +29,7 @@ const pages: Record<string, React.ComponentType> = {
   government: GovernmentDashboard,
   hardware: HardwarePage,
   impact: ImpactPage,
+  research: ResearchPage,
 };
 
 const Index = () => {
