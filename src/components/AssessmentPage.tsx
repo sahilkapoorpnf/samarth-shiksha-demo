@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, Headphones, CheckCircle, Circle, Eye, Ear, BookOpen, Shapes, ClipboardCheck, Brain, Sparkles, BarChart3, ArrowRight, AlertTriangle, Calculator, PenTool, Activity } from "lucide-react";
-import { useState } from "react";
+import { Volume2, Headphones, CheckCircle, Eye, Ear, BookOpen, Shapes, ClipboardCheck, Brain, Sparkles, BarChart3, ArrowRight, AlertTriangle, Calculator, PenTool, Activity } from "lucide-react";
+import { useState, useRef, useCallback } from "react";
 
 const assessments = [
   { id: "reading", label: "Reading", icon: BookOpen, disability: "Dyslexia", desc: "Tests phonemic awareness, decoding, fluency, and reading comprehension" },
@@ -28,12 +28,64 @@ const scoringRubric = [
   { range: "81-100%", level: "No Risk", color: "bg-secondary", desc: "Age-appropriate ability — continue with regular curriculum" },
 ];
 
+// Audio frequencies mapped to different assessment types for distinct sounds
+const audioConfig: Record<string, { freq: number; duration: number; label: string }> = {
+  reading: { freq: 440, duration: 1.2, label: "Reading the sentence aloud..." },
+  math: { freq: 523, duration: 0.8, label: "Playing number audio..." },
+  listening: { freq: 349, duration: 1.5, label: "Playing the story..." },
+  pattern: { freq: 392, duration: 0.6, label: "Playing pattern sound..." },
+  writing: { freq: 466, duration: 0.8, label: "Playing spelling audio..." },
+};
+
 const AssessmentPage = () => {
   const [active, setActive] = useState("reading");
   const [selected, setSelected] = useState<string | null>(null);
   const [memoryRevealed, setMemoryRevealed] = useState(true);
   const [tappedCircles, setTappedCircles] = useState<number[]>([]);
   const [expandedFlow, setExpandedFlow] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  const playAudio = useCallback((type: string) => {
+    if (isPlaying) return;
+    setIsPlaying(true);
+    const config = audioConfig[type] || { freq: 440, duration: 1, label: "Playing..." };
+    try {
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+      const ctx = audioCtxRef.current;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = config.freq;
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + config.duration);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + config.duration);
+      setTimeout(() => setIsPlaying(false), config.duration * 1000 + 200);
+    } catch {
+      setTimeout(() => setIsPlaying(false), 1000);
+    }
+  }, [isPlaying]);
+
+  const AudioButton = ({ type, label }: { type: string; label?: string }) => (
+    <button
+      onClick={() => playAudio(type)}
+      className={`mt-3 px-6 py-3 rounded-xl font-bold flex items-center gap-2 mx-auto hover:scale-105 transition-all ${
+        isPlaying
+          ? "gradient-warm text-primary-foreground animate-pulse"
+          : "gradient-primary text-primary-foreground"
+      }`}
+    >
+      {isPlaying ? (
+        <><Volume2 className="w-5 h-5 animate-bounce" /> {audioConfig[type]?.label || "Playing..."}</>
+      ) : (
+        <><Headphones className="w-5 h-5" /> {label || "Play Audio"}</>
+      )}
+    </button>
+  );
 
   return (
     <div className="space-y-8 pb-8">
@@ -183,9 +235,7 @@ const AssessmentPage = () => {
                 <div className="bg-muted rounded-2xl p-6">
                   <p className="font-display text-2xl font-bold leading-relaxed">"The <span className="text-primary">cat</span> sat on the <span className="text-secondary">mat</span>"</p>
                 </div>
-                <button className="mt-4 gradient-primary text-primary-foreground px-6 py-3 rounded-xl font-bold flex items-center gap-2 mx-auto hover:scale-105 transition-transform">
-                  <Volume2 className="w-5 h-5" /> Play Audio
-                </button>
+                <AudioButton type="reading" label="🔊 Play: Read the sentence" />
               </div>
               <div>
                 <p className="font-bold text-sm mb-3">Question 1: What did the cat sit on?</p>
@@ -211,6 +261,7 @@ const AssessmentPage = () => {
               <div className="bg-muted rounded-2xl p-6">
                 <p className="font-display text-3xl font-bold">5 + 3 = ?</p>
               </div>
+              <AudioButton type="math" label="🔊 Play: 'What is five plus three?'" />
               <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
                 {["6", "7", "8", "9"].map(opt => (
                   <button key={opt} onClick={() => setSelected(opt)}
@@ -275,12 +326,10 @@ const AssessmentPage = () => {
             <div className="space-y-6 text-center">
               <h4 className="font-display font-bold text-lg mb-1">🎧 Listening Comprehension Test</h4>
               <p className="text-muted-foreground text-sm">Tests: auditory discrimination, comprehension, following instructions</p>
-              <div className="w-20 h-20 gradient-primary rounded-full flex items-center justify-center mx-auto animate-pulse-soft">
-                <Headphones className="w-10 h-10 text-primary-foreground" />
+              <div className="w-20 h-20 gradient-primary rounded-full flex items-center justify-center mx-auto">
+                <Headphones className={`w-10 h-10 text-primary-foreground ${isPlaying ? "animate-bounce" : ""}`} />
               </div>
-              <button className="gradient-primary text-primary-foreground px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform flex items-center gap-2 mx-auto">
-                <Volume2 className="w-5 h-5" /> Play Story
-              </button>
+              <AudioButton type="listening" label="🔊 Play Story" />
               <div className="bg-muted rounded-2xl p-5 text-left">
                 <p className="font-bold text-sm mb-3">What color was the bird in the story?</p>
                 <div className="space-y-2">
@@ -299,6 +348,7 @@ const AssessmentPage = () => {
             <div className="space-y-6 text-center">
               <h4 className="font-display font-bold text-lg mb-1">🔷 Pattern Recognition Test</h4>
               <p className="text-muted-foreground text-sm">Tests: visual processing, logical sequencing, spatial reasoning</p>
+              <AudioButton type="pattern" label="🔊 Play: 'What comes next?'" />
               <div className="flex justify-center gap-3 items-center">
                 {["🔵", "🔴", "🔵", "🔴", "🔵", "❓"].map((s, i) => (
                   <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.2 }}
@@ -325,6 +375,7 @@ const AssessmentPage = () => {
                 <p className="text-sm text-muted-foreground mb-3">Trace the letter below:</p>
                 <p className="font-display text-6xl font-extrabold text-primary/30">A</p>
               </div>
+              <AudioButton type="writing" label="🔊 Play: 'Spell the word Apple'" />
               <p className="text-sm mb-3 font-bold">Spell the word for this picture: 🍎</p>
               <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
                 {["APLE", "APPLE", "APEL", "APPEL"].map(opt => (
