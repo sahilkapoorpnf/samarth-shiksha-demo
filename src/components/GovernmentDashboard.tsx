@@ -1,6 +1,18 @@
 import { motion } from "framer-motion";
-import { Building2, Users, School, TrendingUp, MapPin, HeartPulse, IndianRupee, FileText, AlertTriangle, Target } from "lucide-react";
+import { Building2, Users, School, TrendingUp, MapPin, HeartPulse, IndianRupee, FileText, AlertTriangle, Target, LayoutDashboard, BarChart3, PieChart as PieChartIcon, Settings, Globe, Download, Filter } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, PieChart, Pie, Cell } from "recharts";
+import { useState } from "react";
+
+const sidebarItems = [
+  { id: "overview", label: "State Overview", icon: LayoutDashboard },
+  { id: "districts", label: "District Data", icon: MapPin },
+  { id: "disabilities", label: "Disability Stats", icon: HeartPulse },
+  { id: "trends", label: "Growth Trends", icon: TrendingUp },
+  { id: "budget", label: "Budget & Finance", icon: IndianRupee },
+  { id: "reports", label: "Reports", icon: FileText },
+  { id: "policy", label: "Policy Recs", icon: Target },
+  { id: "settings", label: "Settings", icon: Settings },
+];
 
 const kpis = [
   { label: "Students Assessed", value: "12,450", icon: Users, change: "+18% YoY", color: "gradient-primary" },
@@ -56,138 +68,190 @@ const policyRecs = [
   { title: "Hardware Procurement", desc: "500 additional tablets and headphones needed for newly onboarded districts", priority: "Medium" },
 ];
 
-const GovernmentDashboard = () => (
-  <div className="space-y-6 pb-8">
-    <div className="flex items-center gap-3">
-      <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center">
-        <Building2 className="w-6 h-6 text-primary-foreground" />
-      </div>
-      <div>
-        <h2 className="font-display text-2xl font-bold">Government Dashboard</h2>
-        <p className="text-muted-foreground text-sm">State-level analytics • FY 2024-25</p>
-      </div>
-    </div>
+const GovernmentDashboard = () => {
+  const [activeSection, setActiveSection] = useState("overview");
 
-    {/* KPIs */}
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-      {kpis.map((k, i) => (
-        <motion.div key={k.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-          className={`${k.color} text-primary-foreground rounded-2xl p-4 shadow-card`}>
-          <k.icon className="w-5 h-5 mb-2 opacity-80" />
-          <p className="font-display font-extrabold text-2xl">{k.value}</p>
-          <p className="text-xs opacity-80">{k.label}</p>
-          <span className="text-[10px] font-bold bg-primary-foreground/20 px-2 py-0.5 rounded-full mt-2 inline-block">{k.change}</span>
-        </motion.div>
-      ))}
-    </div>
-
-    {/* Disability Breakdown Pie */}
-    <div className="grid md:grid-cols-2 gap-6">
-      <div className="bg-card rounded-3xl shadow-card p-6">
-        <h3 className="font-display font-bold mb-4 flex items-center gap-2"><HeartPulse className="w-5 h-5 text-destructive" /> Disability Distribution</h3>
-        <ResponsiveContainer width="100%" height={220}>
-          <PieChart>
-            <Pie data={disabilityBreakdown} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value">
-              {disabilityBreakdown.map((entry, i) => <Cell key={i} fill={entry.color} />)}
-            </Pie>
-            <Tooltip formatter={(value: number) => `${value}%`} />
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="flex flex-wrap gap-2 justify-center mt-2">
-          {disabilityBreakdown.map(d => (
-            <span key={d.name} className="flex items-center gap-1 text-[10px]">
-              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: d.color }} />{d.name} ({d.value}%)
-            </span>
-          ))}
+  return (
+    <div className="flex gap-4 pb-8">
+      {/* Left Sidebar */}
+      <div className="hidden md:block w-52 shrink-0">
+        <div className="bg-card rounded-2xl shadow-card p-3 sticky top-20">
+          <div className="flex items-center gap-2 px-3 py-2 mb-2">
+            <div className="w-8 h-8 gradient-purple rounded-lg flex items-center justify-center">
+              <Building2 className="w-4 h-4 text-primary-foreground" />
+            </div>
+            <div>
+              <p className="font-display font-bold text-xs">Govt Panel</p>
+              <p className="text-[9px] text-muted-foreground">FY 2024-25</p>
+            </div>
+          </div>
+          <nav className="space-y-0.5">
+            {sidebarItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <button key={item.id} onClick={() => setActiveSection(item.id)}
+                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                    activeSection === item.id ? "bg-primary/10 text-primary font-bold" : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}>
+                  <Icon className="w-4 h-4" />
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
         </div>
       </div>
 
-      <div className="bg-card rounded-3xl shadow-card p-6">
-        <h3 className="font-display font-bold mb-4">District Performance</h3>
-        <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={districtData}>
-            <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Bar dataKey="assessed" fill="hsl(215, 85%, 50%)" radius={[4, 4, 0, 0]} name="Assessed" />
-            <Bar dataKey="improved" fill="hsl(158, 55%, 42%)" radius={[4, 4, 0, 0]} name="Improved" />
-          </BarChart>
-        </ResponsiveContainer>
+      {/* Mobile sidebar */}
+      <div className="md:hidden fixed top-14 left-0 right-0 z-40 glass border-b border-border px-2 py-1.5 overflow-x-auto no-scrollbar flex gap-1">
+        {sidebarItems.map(item => {
+          const Icon = item.icon;
+          return (
+            <button key={item.id} onClick={() => setActiveSection(item.id)}
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${
+                activeSection === item.id ? "bg-primary/10 text-primary" : "text-muted-foreground"
+              }`}>
+              <Icon className="w-3 h-3" />
+              {item.label}
+            </button>
+          );
+        })}
       </div>
-    </div>
 
-    {/* Trend */}
-    <div className="bg-card rounded-3xl shadow-card p-6">
-      <h3 className="font-display font-bold mb-4">Growth Trend (6 Months)</h3>
-      <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={trendData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 18%, 88%)" />
-          <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-          <YAxis tick={{ fontSize: 11 }} />
-          <Tooltip />
-          <Line type="monotone" dataKey="students" stroke="hsl(215, 85%, 50%)" strokeWidth={2} dot={{ r: 4 }} name="Students Assessed" />
-          <Line type="monotone" dataKey="improvement" stroke="hsl(158, 55%, 42%)" strokeWidth={2} dot={{ r: 4 }} name="Improvement %" />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+      {/* Main Content */}
+      <div className="flex-1 space-y-6 min-w-0 md:pt-0 pt-10">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 gradient-primary rounded-2xl flex items-center justify-center">
+            <Building2 className="w-6 h-6 text-primary-foreground" />
+          </div>
+          <div>
+            <h2 className="font-display text-2xl font-bold">Government Dashboard</h2>
+            <p className="text-muted-foreground text-sm">State-level analytics • FY 2024-25</p>
+          </div>
+        </div>
 
-    {/* Heatmap */}
-    <div className="bg-card rounded-3xl shadow-card p-6">
-      <h3 className="font-display font-bold mb-4">Learning Gap Heatmap</h3>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-muted-foreground">
-              <th className="text-left font-medium py-2 pr-4">District</th>
-              <th className="font-medium py-2 px-2">Reading</th>
-              <th className="font-medium py-2 px-2">Memory</th>
-              <th className="font-medium py-2 px-2">Attention</th>
-              <th className="font-medium py-2 px-2">Math</th>
-            </tr>
-          </thead>
-          <tbody>
-            {heatmapData.map(d => (
-              <tr key={d.district}>
-                <td className="font-bold py-2 pr-4 text-xs">{d.district}</td>
-                {[d.reading, d.memory, d.attention, d.math].map((v, i) => (
-                  <td key={i} className="py-2 px-2">
-                    <div className={`h-7 rounded-lg ${heatColor(v)} flex items-center justify-center text-[10px] font-bold`}>
-                      {v === 3 ? "High" : v === 2 ? "Med" : "Low"}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex gap-3 mt-3 justify-end">
-        <span className="flex items-center gap-1 text-[10px]"><span className="w-3 h-3 rounded bg-secondary/50" />Low Gap</span>
-        <span className="flex items-center gap-1 text-[10px]"><span className="w-3 h-3 rounded bg-accent/70" />Medium</span>
-        <span className="flex items-center gap-1 text-[10px]"><span className="w-3 h-3 rounded bg-destructive/70" />High Gap</span>
-      </div>
-    </div>
+        {/* KPIs */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {kpis.map((k, i) => (
+            <motion.div key={k.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
+              className={`${k.color} text-primary-foreground rounded-2xl p-4 shadow-card`}>
+              <k.icon className="w-5 h-5 mb-2 opacity-80" />
+              <p className="font-display font-extrabold text-2xl">{k.value}</p>
+              <p className="text-xs opacity-80">{k.label}</p>
+              <span className="text-[10px] font-bold bg-primary-foreground/20 px-2 py-0.5 rounded-full mt-2 inline-block">{k.change}</span>
+            </motion.div>
+          ))}
+        </div>
 
-    {/* Policy Recommendations */}
-    <div className="bg-card rounded-3xl shadow-card p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Target className="w-5 h-5 text-accent" />
-        <h3 className="font-display font-bold">AI Policy Recommendations</h3>
-      </div>
-      <div className="space-y-3">
-        {policyRecs.map((r, i) => (
-          <motion.div key={r.title} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
-            className="flex items-start gap-3 p-3 rounded-xl bg-muted/50">
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 mt-0.5 ${r.priority === "High" ? "bg-destructive/10 text-destructive" : "bg-accent/10 text-accent"}`}>{r.priority}</span>
-            <div>
-              <p className="font-display font-bold text-sm">{r.title}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{r.desc}</p>
+        {/* Disability Breakdown Pie */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-card rounded-3xl shadow-card p-6">
+            <h3 className="font-display font-bold mb-4 flex items-center gap-2"><HeartPulse className="w-5 h-5 text-destructive" /> Disability Distribution</h3>
+            <ResponsiveContainer width="100%" height={220}>
+              <PieChart>
+                <Pie data={disabilityBreakdown} cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={3} dataKey="value">
+                  {disabilityBreakdown.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                </Pie>
+                <Tooltip formatter={(value: number) => `${value}%`} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="flex flex-wrap gap-2 justify-center mt-2">
+              {disabilityBreakdown.map(d => (
+                <span key={d.name} className="flex items-center gap-1 text-[10px]">
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: d.color }} />{d.name} ({d.value}%)
+                </span>
+              ))}
             </div>
-          </motion.div>
-        ))}
+          </div>
+
+          <div className="bg-card rounded-3xl shadow-card p-6">
+            <h3 className="font-display font-bold mb-4">District Performance</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={districtData}>
+                <XAxis dataKey="name" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Bar dataKey="assessed" fill="hsl(215, 85%, 50%)" radius={[4, 4, 0, 0]} name="Assessed" />
+                <Bar dataKey="improved" fill="hsl(158, 55%, 42%)" radius={[4, 4, 0, 0]} name="Improved" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Trend */}
+        <div className="bg-card rounded-3xl shadow-card p-6">
+          <h3 className="font-display font-bold mb-4">Growth Trend (6 Months)</h3>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={trendData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 18%, 88%)" />
+              <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+              <YAxis tick={{ fontSize: 11 }} />
+              <Tooltip />
+              <Line type="monotone" dataKey="students" stroke="hsl(215, 85%, 50%)" strokeWidth={2} dot={{ r: 4 }} name="Students Assessed" />
+              <Line type="monotone" dataKey="improvement" stroke="hsl(158, 55%, 42%)" strokeWidth={2} dot={{ r: 4 }} name="Improvement %" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Heatmap */}
+        <div className="bg-card rounded-3xl shadow-card p-6">
+          <h3 className="font-display font-bold mb-4">Learning Gap Heatmap</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-muted-foreground">
+                  <th className="text-left font-medium py-2 pr-4">District</th>
+                  <th className="font-medium py-2 px-2">Reading</th>
+                  <th className="font-medium py-2 px-2">Memory</th>
+                  <th className="font-medium py-2 px-2">Attention</th>
+                  <th className="font-medium py-2 px-2">Math</th>
+                </tr>
+              </thead>
+              <tbody>
+                {heatmapData.map(d => (
+                  <tr key={d.district}>
+                    <td className="font-bold py-2 pr-4 text-xs">{d.district}</td>
+                    {[d.reading, d.memory, d.attention, d.math].map((v, i) => (
+                      <td key={i} className="py-2 px-2">
+                        <div className={`h-7 rounded-lg ${heatColor(v)} flex items-center justify-center text-[10px] font-bold`}>
+                          {v === 3 ? "High" : v === 2 ? "Med" : "Low"}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex gap-3 mt-3 justify-end">
+            <span className="flex items-center gap-1 text-[10px]"><span className="w-3 h-3 rounded bg-secondary/50" />Low Gap</span>
+            <span className="flex items-center gap-1 text-[10px]"><span className="w-3 h-3 rounded bg-accent/70" />Medium</span>
+            <span className="flex items-center gap-1 text-[10px]"><span className="w-3 h-3 rounded bg-destructive/70" />High Gap</span>
+          </div>
+        </div>
+
+        {/* Policy Recommendations */}
+        <div className="bg-card rounded-3xl shadow-card p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Target className="w-5 h-5 text-accent" />
+            <h3 className="font-display font-bold">AI Policy Recommendations</h3>
+          </div>
+          <div className="space-y-3">
+            {policyRecs.map((r, i) => (
+              <motion.div key={r.title} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
+                className="flex items-start gap-3 p-3 rounded-xl bg-muted/50">
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 mt-0.5 ${r.priority === "High" ? "bg-destructive/10 text-destructive" : "bg-accent/10 text-accent"}`}>{r.priority}</span>
+                <div>
+                  <p className="font-display font-bold text-sm">{r.title}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{r.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default GovernmentDashboard;
