@@ -101,10 +101,23 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
       {/* Single video banner */}
       <motion.div {...fadeUp(0.1)} className="relative rounded-2xl overflow-hidden shadow-elevated mb-6">
         <video src={journeyVideo.url} autoPlay loop muted playsInline className="w-full h-auto object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-foreground/30" />
+        {/* Top-left branding */}
+        <div className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-2.5 bg-card/80 backdrop-blur-lg rounded-xl px-3 py-2 shadow-elevated">
+          <img src={bdLogo} alt="BitDecentro" className="h-5 md:h-6" />
+        </div>
+        {/* Top-right badge */}
+        <div className="absolute top-4 right-4 md:top-6 md:right-6 bg-primary/90 backdrop-blur-lg rounded-xl px-3 py-1.5 shadow-elevated">
+          <p className="text-[9px] font-bold text-primary-foreground uppercase tracking-wider">Powered by AI</p>
+        </div>
+        {/* Bottom overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-          <p className="font-display font-extrabold text-xl md:text-2xl text-primary-foreground">Screen → Detect → Therapy → Growth</p>
-          <p className="text-primary-foreground/70 text-sm mt-1">A child's complete transformation journey powered by BitDecentro AI</p>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-0.5 w-6 bg-accent rounded-full" />
+            <span className="text-[10px] font-bold text-primary-foreground/60 uppercase tracking-widest">Samarth Shiksha by BitDecentro</span>
+          </div>
+          <p className="font-display font-extrabold text-xl md:text-3xl text-primary-foreground">Screen → Detect → Therapy → Growth</p>
+          <p className="text-primary-foreground/70 text-sm mt-1 max-w-lg">AI-powered learning disability detection and personalized game-based therapy for every government school child in India</p>
         </div>
       </motion.div>
 
