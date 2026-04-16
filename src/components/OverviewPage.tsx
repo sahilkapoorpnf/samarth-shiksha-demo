@@ -7,8 +7,7 @@ import {
   Lightbulb, Heart, Timer, Mic, PenTool, Calculator
 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
-import bdLogo from "@/assets/bitdecentro-logo-full.png";
-import journeyVideo from "@/assets/full-journey-video.mp4.asset.json";
+import bannerVideo from "@/assets/happy-flow-banner.mp4.asset.json";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -90,131 +89,26 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
       </div>
     </section>
 
-    {/* ═══════════════════════ JOURNEY VIDEO + PHASE CARDS ═══════════════════════ */}
-    <section>
-      <motion.div {...fadeUp(0)} className="text-center mb-8">
-        <span className="text-xs font-bold text-primary uppercase tracking-widest">The Complete Journey</span>
-        <h2 className="section-title mt-2">How AI Transforms Learning</h2>
-        <p className="section-subtitle">Four phases that take a struggling child to a confident learner</p>
-      </motion.div>
-
-      {/* Single video banner */}
-      <motion.div {...fadeUp(0.1)} className="relative rounded-2xl overflow-hidden shadow-elevated mb-6">
-        <video src={journeyVideo.url} autoPlay loop muted playsInline className="w-full h-auto object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/10 to-foreground/30" />
-        {/* Top-left branding */}
-        <div className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-2.5 bg-card/80 backdrop-blur-lg rounded-xl px-3 py-2 shadow-elevated">
-          <img src={bdLogo} alt="BitDecentro" className="h-5 md:h-6" />
-        </div>
-        {/* Top-right badge */}
-        <div className="absolute top-4 right-4 md:top-6 md:right-6 bg-primary/90 backdrop-blur-lg rounded-xl px-3 py-1.5 shadow-elevated">
-          <p className="text-[9px] font-bold text-primary-foreground uppercase tracking-wider">Powered by AI</p>
-        </div>
-        {/* Bottom overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="h-0.5 w-6 bg-accent rounded-full" />
-            <span className="text-[10px] font-bold text-primary-foreground/60 uppercase tracking-widest">Samarth Shiksha by BitDecentro</span>
-          </div>
-          <p className="font-display font-extrabold text-xl md:text-3xl text-primary-foreground">Screen → Detect → Therapy → Growth</p>
-          <p className="text-primary-foreground/70 text-sm mt-1 max-w-lg">AI-powered learning disability detection and personalized game-based therapy for every government school child in India</p>
-        </div>
-      </motion.div>
-
-      {/* 4 phase description cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {[
-          { num: "01", title: "Screen", subtitle: "AI-Powered Assessment", desc: "Game-based tests across 5 cognitive domains with headphone-isolated sessions for accuracy.", gradient: "gradient-primary", icon: ClipboardCheck },
-          { num: "02", title: "Detect", subtitle: "ML Diagnosis", desc: "95% accurate detection of Dyslexia, ADHD, Dyscalculia, Dysgraphia, APD & VPD.", gradient: "gradient-purple", icon: Brain },
-          { num: "03", title: "Therapy", subtitle: "Game Interventions", desc: "50+ therapeutic games mapped to each disability with adaptive difficulty and rewards.", gradient: "gradient-warm", icon: Gamepad2 },
-          { num: "04", title: "Growth", subtitle: "Measurable Results", desc: "89% of children show academic improvement within 6 months with real-time tracking.", gradient: "gradient-teal", icon: TrendingUp },
-        ].map((phase, i) => {
-          const Icon = phase.icon;
-          return (
-            <motion.div key={phase.title} {...fadeUp(0.2 + i * 0.1)}
-              className="bg-card rounded-2xl shadow-card p-5 card-hover relative overflow-hidden">
-              <div className={`absolute top-0 left-0 w-full h-1 ${phase.gradient}`} />
-              <span className="text-[10px] font-extrabold text-muted-foreground/30 font-display">{phase.num}</span>
-              <div className={`w-10 h-10 ${phase.gradient} rounded-xl flex items-center justify-center my-3 shadow-lg`}>
-                <Icon className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <h3 className="font-display font-bold text-sm">{phase.title}</h3>
-              <p className="text-[10px] font-semibold text-muted-foreground mb-1">{phase.subtitle}</p>
-              <p className="text-xs text-muted-foreground/80 leading-relaxed">{phase.desc}</p>
-            </motion.div>
-          );
-        })}
-      </div>
-    </section>
-
-    {/* ═══════════════════════ BITDECENTRO BRANDING ═══════════════════════ */}
-    <section className="relative overflow-hidden rounded-[2rem] bg-foreground text-primary-foreground">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-accent rounded-full translate-x-1/3 translate-y-1/3" />
-      </div>
-      <div className="relative z-10 p-8 md:p-12">
-        <motion.div {...fadeUp(0)} className="text-center mb-10">
-          <img src={bdLogo} alt="BitDecentro" className="h-12 md:h-16 mx-auto mb-6 brightness-0 invert" />
-          <h2 className="font-display font-extrabold text-2xl md:text-4xl leading-tight mb-3">
-            Empowering India's Future with<br /><span className="text-primary">Artificial Intelligence</span>
+    {/* ═══════════════════════ HAPPY FLOW VIDEO BANNER ═══════════════════════ */}
+    <section className="relative rounded-[2rem] overflow-hidden shadow-elevated">
+      <video
+        src={bannerVideo.url}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-auto object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+        <motion.div {...fadeUp(0.2)}>
+          <span className="text-xs font-bold text-primary-foreground/80 uppercase tracking-widest">The Happy Flow</span>
+          <h2 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mt-1">
+            Screen → Detect → Therapy → Growth
           </h2>
-          <p className="text-primary-foreground/60 text-sm max-w-2xl mx-auto leading-relaxed">
-            BitDecentro builds AI-first products that solve India's most critical challenges. Samarth Shiksha is our flagship initiative — bringing world-class learning disability detection and therapy to every government school child.
+          <p className="text-primary-foreground/70 text-sm mt-2 max-w-xl">
+            Watch how AI-powered assessment identifies learning gaps and delivers personalized game-based therapy — helping every child unlock their full potential.
           </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-4 mb-10">
-          {[
-            { title: "Our Mission", desc: "Ensure no child is left behind due to undetected learning disabilities. We believe every child can learn — they just need the right support at the right time.", icon: Heart },
-            { title: "Our Technology", desc: "Proprietary ML models trained on 50,000+ Indian student datasets. NLP for reading assessment, Computer Vision for handwriting analysis, and Adaptive AI for personalized therapy.", icon: Brain },
-            { title: "Our Impact", desc: "12,450+ students assessed, 340+ schools covered, 89% improvement rate. Working with 15+ districts across India to make inclusive education a reality.", icon: TrendingUp },
-          ].map((item, i) => {
-            const Icon = item.icon;
-            return (
-              <motion.div key={item.title} {...fadeUp(0.1 + i * 0.1)}
-                className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6 hover:bg-primary-foreground/10 transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-primary" />
-                </div>
-                <h3 className="font-display font-bold text-base mb-2">{item.title}</h3>
-                <p className="text-primary-foreground/50 text-xs leading-relaxed">{item.desc}</p>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        <motion.div {...fadeUp(0.4)} className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6 md:p-8">
-          <h3 className="font-display font-bold text-lg text-center mb-6">How BitDecentro's AI Powers Every Step</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { step: "Data Collection", desc: "Multi-modal input — voice, touch, eye-tracking, handwriting — captured through tablets with headphones", icon: Mic },
-              { step: "AI Processing", desc: "Real-time inference using edge-deployed ML models — works offline on low-cost tablets", icon: Zap },
-              { step: "Smart Diagnosis", desc: "Pattern matching across 200+ behavioral markers to identify 6 disability types with severity scoring", icon: Target },
-              { step: "Adaptive Learning", desc: "Content difficulty auto-adjusts based on performance. Each child gets a unique learning path", icon: Sparkles },
-            ].map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <motion.div key={s.step} {...fadeUp(0.5 + i * 0.08)} className="text-center">
-                  <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
-                    <Icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <p className="font-display font-bold text-xs mb-1">{s.step}</p>
-                  <p className="text-[10px] text-primary-foreground/40 leading-relaxed">{s.desc}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-
-        <motion.div {...fadeUp(0.6)} className="mt-8 text-center">
-          <p className="text-primary-foreground/30 text-[10px] uppercase tracking-widest font-bold mb-2">Trusted By</p>
-          <div className="flex items-center justify-center gap-6 flex-wrap text-primary-foreground/20 font-display font-bold text-sm">
-            <span>Ministry of Education</span><span>•</span>
-            <span>NCERT</span><span>•</span>
-            <span>State Education Departments</span><span>•</span>
-            <span>District Administration</span>
-          </div>
         </motion.div>
       </div>
     </section>
