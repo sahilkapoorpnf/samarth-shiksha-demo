@@ -7,6 +7,7 @@ import {
   Lightbulb, Heart, Timer, Mic, PenTool, Calculator
 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
+import bannerVideo from "@/assets/happy-flow-banner.mp4.asset.json";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -85,6 +86,30 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
             <p className="text-[10px] text-muted-foreground font-medium">Improvement Rate</p>
           </motion.div>
         </div>
+      </div>
+    </section>
+
+    {/* ═══════════════════════ HAPPY FLOW VIDEO BANNER ═══════════════════════ */}
+    <section className="relative rounded-[2rem] overflow-hidden shadow-elevated">
+      <video
+        src={bannerVideo.url}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-auto object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+        <motion.div {...fadeUp(0.2)}>
+          <span className="text-xs font-bold text-primary-foreground/80 uppercase tracking-widest">The Happy Flow</span>
+          <h2 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mt-1">
+            Screen → Detect → Therapy → Growth
+          </h2>
+          <p className="text-primary-foreground/70 text-sm mt-2 max-w-xl">
+            Watch how AI-powered assessment identifies learning gaps and delivers personalized game-based therapy — helping every child unlock their full potential.
+          </p>
+        </motion.div>
       </div>
     </section>
 

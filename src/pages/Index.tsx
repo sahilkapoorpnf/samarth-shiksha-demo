@@ -33,7 +33,7 @@ const pages: Record<string, React.ComponentType<{ onNavigate?: (tab: string) => 
 };
 
 // Pages that use internal sidebar layout need wider container
-const widePages = new Set(["teacher", "parent", "government"]);
+const widePages = new Set(["teacher", "parent", "government", "overview"]);
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -43,7 +43,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <BrandHeader />
-      <div className={`mx-auto px-4 pt-16 pb-24 ${isWide ? "max-w-6xl" : "max-w-4xl"}`}>
+      <div className={`mx-auto px-4 pt-16 pb-24 ${activeTab === "overview" ? "max-w-7xl" : isWide ? "max-w-6xl" : "max-w-4xl"}`}>
         <AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
             <Page onNavigate={setActiveTab} />
