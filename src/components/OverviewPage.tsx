@@ -93,7 +93,7 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
     {/* ═══════════════════════ HAPPY FLOW VIDEO BANNER ═══════════════════════ */}
     <section className="relative rounded-[2rem] overflow-hidden shadow-elevated">
       <video
-        src={bannerVideo.url}
+        src={BANNER_VIDEO_URL}
         autoPlay
         loop
         muted
