@@ -93,31 +93,122 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
       </div>
     </section>
 
-    {/* ═══════════════════════ HAPPY FLOW VIDEO BANNER ═══════════════════════ */}
-    <section className="relative rounded-[2rem] overflow-hidden shadow-elevated">
-      <video
-        src={bannerVideo.url}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="w-full h-auto object-cover"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-        <motion.div {...fadeUp(0.2)}>
-          <span className="text-xs font-bold text-primary-foreground/80 uppercase tracking-widest">The Happy Flow</span>
-          <h2 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mt-1">
-            Screen → Detect → Therapy → Growth
-          </h2>
-          <p className="text-primary-foreground/70 text-sm mt-2 max-w-xl">
-            Watch how AI-powered assessment identifies learning gaps and delivers personalized game-based therapy — helping every child unlock their full potential.
-          </p>
-        </motion.div>
+    {/* ═══════════════════════ 4 PHASE VIDEO SHOWCASE ═══════════════════════ */}
+    <section>
+      <motion.div {...fadeUp(0)} className="text-center mb-8">
+        <span className="text-xs font-bold text-primary uppercase tracking-widest">The Complete Journey</span>
+        <h2 className="section-title mt-2">How AI Transforms Learning</h2>
+        <p className="section-subtitle">Four phases that take a struggling child to a confident learner</p>
+      </motion.div>
+      <div className="grid md:grid-cols-2 gap-5">
+        {[
+          { video: phaseScreen, num: "01", title: "Screen", subtitle: "AI-Powered Assessment", desc: "Children interact with age-appropriate, game-based tests across 5 cognitive domains — reading, math, attention, auditory & visual processing. Headphone-isolated sessions ensure accurate results even in noisy classrooms.", gradient: "gradient-primary", icon: ClipboardCheck },
+          { video: phaseDetect, num: "02", title: "Detect", subtitle: "Machine Learning Diagnosis", desc: "Advanced ML models analyze response patterns with 95% accuracy — detecting Dyslexia, ADHD, Dyscalculia, Dysgraphia, APD & VPD. Each child receives a detailed learning profile with severity levels and co-morbidity markers.", gradient: "gradient-purple", icon: Brain },
+          { video: phaseTherapy, num: "03", title: "Therapy", subtitle: "Game-Based Intervention", desc: "50+ therapeutic games custom-mapped to each disability type. Adaptive difficulty ensures children are challenged but not frustrated. Reward systems keep engagement high with points, badges & streaks.", gradient: "gradient-warm", icon: Gamepad2 },
+          { video: phaseGrowth, num: "04", title: "Growth", subtitle: "Measurable Improvement", desc: "Real-time progress tracking shows improvement across all cognitive domains. Quarterly re-assessments measure growth. 89% of children show measurable academic improvement within 6 months.", gradient: "gradient-teal", icon: TrendingUp },
+        ].map((phase, i) => {
+          const Icon = phase.icon;
+          return (
+            <motion.div key={phase.title} {...fadeUp(i * 0.12)}
+              className="bg-card rounded-2xl shadow-card overflow-hidden card-hover group">
+              <div className="relative">
+                <video src={phase.video.url} autoPlay loop muted playsInline className="w-full h-48 object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
+                <div className="absolute top-3 left-3">
+                  <span className={`text-[10px] font-extrabold text-primary-foreground/60 font-display`}>{phase.num}</span>
+                </div>
+                <div className="absolute bottom-3 left-4 right-4">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 ${phase.gradient} rounded-lg flex items-center justify-center shadow-lg`}>
+                      <Icon className="w-4 h-4 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-extrabold text-lg text-primary-foreground">{phase.title}</h3>
+                      <p className="text-[10px] text-primary-foreground/70 font-semibold">{phase.subtitle}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-5">
+                <p className="text-xs text-muted-foreground leading-relaxed">{phase.desc}</p>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
 
-    {/* ═══════════════════════ THE CRISIS — Bold Numbers ═══════════════════════ */}
+    {/* ═══════════════════════ BITDECENTRO BRANDING ═══════════════════════ */}
+    <section className="relative overflow-hidden rounded-[2rem] bg-foreground text-primary-foreground">
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-accent rounded-full translate-x-1/3 translate-y-1/3" />
+      </div>
+      <div className="relative z-10 p-8 md:p-12">
+        <motion.div {...fadeUp(0)} className="text-center mb-10">
+          <img src={bdLogo} alt="BitDecentro" className="h-12 md:h-16 mx-auto mb-6 brightness-0 invert" />
+          <h2 className="font-display font-extrabold text-2xl md:text-4xl leading-tight mb-3">
+            Empowering India's Future with<br /><span className="text-primary">Artificial Intelligence</span>
+          </h2>
+          <p className="text-primary-foreground/60 text-sm max-w-2xl mx-auto leading-relaxed">
+            BitDecentro builds AI-first products that solve India's most critical challenges. Samarth Shiksha is our flagship initiative — bringing world-class learning disability detection and therapy to every government school child.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-4 mb-10">
+          {[
+            { title: "Our Mission", desc: "Ensure no child is left behind due to undetected learning disabilities. We believe every child can learn — they just need the right support at the right time.", icon: Heart },
+            { title: "Our Technology", desc: "Proprietary ML models trained on 50,000+ Indian student datasets. NLP for reading assessment, Computer Vision for handwriting analysis, and Adaptive AI for personalized therapy.", icon: Brain },
+            { title: "Our Impact", desc: "12,450+ students assessed, 340+ schools covered, 89% improvement rate. Working with 15+ districts across India to make inclusive education a reality.", icon: TrendingUp },
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div key={item.title} {...fadeUp(0.1 + i * 0.1)}
+                className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6 hover:bg-primary-foreground/10 transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-display font-bold text-base mb-2">{item.title}</h3>
+                <p className="text-primary-foreground/50 text-xs leading-relaxed">{item.desc}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <motion.div {...fadeUp(0.4)} className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-2xl p-6 md:p-8">
+          <h3 className="font-display font-bold text-lg text-center mb-6">How BitDecentro's AI Powers Every Step</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { step: "Data Collection", desc: "Multi-modal input — voice, touch, eye-tracking, handwriting — captured through tablets with headphones", icon: Mic },
+              { step: "AI Processing", desc: "Real-time inference using edge-deployed ML models — works offline on low-cost tablets", icon: Zap },
+              { step: "Smart Diagnosis", desc: "Pattern matching across 200+ behavioral markers to identify 6 disability types with severity scoring", icon: Target },
+              { step: "Adaptive Learning", desc: "Content difficulty auto-adjusts based on performance. Each child gets a unique learning path", icon: Sparkles },
+            ].map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <motion.div key={s.step} {...fadeUp(0.5 + i * 0.08)} className="text-center">
+                  <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                    <Icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <p className="font-display font-bold text-xs mb-1">{s.step}</p>
+                  <p className="text-[10px] text-primary-foreground/40 leading-relaxed">{s.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        <motion.div {...fadeUp(0.6)} className="mt-8 text-center">
+          <p className="text-primary-foreground/30 text-[10px] uppercase tracking-widest font-bold mb-2">Trusted By</p>
+          <div className="flex items-center justify-center gap-6 flex-wrap text-primary-foreground/20 font-display font-bold text-sm">
+            <span>Ministry of Education</span><span>•</span>
+            <span>NCERT</span><span>•</span>
+            <span>State Education Departments</span><span>•</span>
+            <span>District Administration</span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
     <section>
       <motion.div {...fadeUp(0)} className="text-center mb-8">
         <span className="text-xs font-bold text-destructive uppercase tracking-widest">The Silent Crisis</span>
