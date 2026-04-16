@@ -1,9 +1,10 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
+import { HEADING_FONT, BODY_FONT, textShadow, subtleShadow } from "../fonts";
 
 const conditions = [
-  { name: "Dyslexia", confidence: "87%", color: "hsl(0, 75%, 55%)" },
-  { name: "ADHD", confidence: "78%", color: "hsl(32, 95%, 55%)" },
-  { name: "Dysgraphia", confidence: "62%", color: "hsl(215, 85%, 55%)" },
+  { name: "Dyslexia", confidence: "87%", color: "hsl(0, 75%, 60%)" },
+  { name: "ADHD", confidence: "78%", color: "hsl(32, 95%, 60%)" },
+  { name: "Dysgraphia", confidence: "62%", color: "hsl(215, 85%, 60%)" },
 ];
 
 export const Scene4AIAnalysis = () => {
@@ -15,7 +16,6 @@ export const Scene4AIAnalysis = () => {
 
   return (
     <AbsoluteFill style={{ padding: "60px 100px" }}>
-      {/* Title */}
       <div style={{
         opacity: headingOpacity,
         transform: `scale(${headingScale})`,
@@ -23,33 +23,28 @@ export const Scene4AIAnalysis = () => {
         marginBottom: 40,
       }}>
         <div style={{
-          fontFamily: "sans-serif",
-          fontSize: 48,
+          fontFamily: HEADING_FONT,
+          fontSize: 54,
           fontWeight: 800,
           color: "white",
+          textShadow,
         }}>
           AI-Powered{" "}
-          <span style={{
-            background: "linear-gradient(90deg, hsl(215, 85%, 60%), hsl(158, 55%, 55%))",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>
-            Learning Profile
-          </span>
+          <span style={{ color: "hsl(215, 85%, 70%)" }}>Learning Profile</span>
         </div>
         <div style={{
-          fontFamily: "sans-serif",
-          fontSize: 22,
-          color: "hsl(220, 15%, 60%)",
-          marginTop: 10,
+          fontFamily: BODY_FONT,
+          fontSize: 26,
+          fontWeight: 500,
+          color: "hsl(220, 30%, 75%)",
+          marginTop: 12,
+          textShadow: subtleShadow,
         }}>
           94% accurate detection powered by ML models trained on 50,000+ assessments
         </div>
       </div>
 
       <div style={{ display: "flex", gap: 40, flex: 1 }}>
-        {/* Left: Screenshot */}
         <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
           {(() => {
             const imgSpring = spring({ frame: frame - 15, fps, config: { damping: 18 } });
@@ -73,21 +68,21 @@ export const Scene4AIAnalysis = () => {
           })()}
         </div>
 
-        {/* Right: Conditions */}
         <div style={{
-          width: 420,
+          width: 450,
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           gap: 24,
         }}>
           <div style={{
-            fontFamily: "sans-serif",
-            fontSize: 26,
+            fontFamily: HEADING_FONT,
+            fontSize: 30,
             fontWeight: 700,
             color: "white",
             opacity: interpolate(frame, [30, 45], [0, 1], { extrapolateRight: "clamp" }),
             marginBottom: 8,
+            textShadow,
           }}>
             Detected Conditions
           </div>
@@ -101,10 +96,11 @@ export const Scene4AIAnalysis = () => {
               <div key={c.name} style={{
                 opacity,
                 transform: `translateX(${x}px)`,
-                padding: "24px 28px",
+                padding: "28px 32px",
                 borderRadius: 20,
                 background: "hsl(220, 25%, 14%)",
-                border: `2px solid ${c.color}44`,
+                border: `2px solid ${c.color}55`,
+                boxShadow: "0 8px 30px rgba(0,0,0,0.3)",
               }}>
                 <div style={{
                   display: "flex",
@@ -112,20 +108,21 @@ export const Scene4AIAnalysis = () => {
                   alignItems: "center",
                 }}>
                   <div style={{
-                    fontFamily: "sans-serif",
-                    fontSize: 26,
+                    fontFamily: HEADING_FONT,
+                    fontSize: 30,
                     fontWeight: 700,
                     color: c.color,
+                    textShadow: `0 2px 15px ${c.color}44`,
                   }}>
                     {c.name}
                   </div>
                   <div style={{
-                    fontFamily: "sans-serif",
-                    fontSize: 20,
-                    fontWeight: 600,
-                    color: "hsl(220, 15%, 75%)",
-                    background: "hsl(220, 25%, 18%)",
-                    padding: "6px 16px",
+                    fontFamily: BODY_FONT,
+                    fontSize: 24,
+                    fontWeight: 700,
+                    color: "white",
+                    background: "hsl(220, 25%, 20%)",
+                    padding: "8px 20px",
                     borderRadius: 30,
                   }}>
                     {c.confidence}

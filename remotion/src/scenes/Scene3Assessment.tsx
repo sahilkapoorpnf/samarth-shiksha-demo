@@ -1,4 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile, Sequence } from "remotion";
+import { HEADING_FONT, BODY_FONT, textShadow, subtleShadow } from "../fonts";
 
 const screenshots = [
   { src: "images/reading-test.png", label: "Reading Fluency Test" },
@@ -14,12 +15,10 @@ export const Scene3Assessment = () => {
   const headingOpacity = interpolate(frame, [0, 15], [0, 1], { extrapolateRight: "clamp" });
   const headingY = interpolate(spring({ frame, fps, config: { damping: 20 } }), [0, 1], [40, 0]);
 
-  // Cycle through screenshots
   const activeIndex = Math.min(Math.floor((frame - 30) / 30), screenshots.length - 1);
 
   return (
     <AbsoluteFill style={{ padding: "60px 80px" }}>
-      {/* Title */}
       <div style={{
         opacity: headingOpacity,
         transform: `translateY(${headingY}px)`,
@@ -27,26 +26,28 @@ export const Scene3Assessment = () => {
         marginBottom: 30,
       }}>
         <div style={{
-          fontFamily: "sans-serif",
-          fontSize: 48,
+          fontFamily: HEADING_FONT,
+          fontSize: 54,
           fontWeight: 800,
           color: "white",
+          textShadow,
         }}>
           7-Domain{" "}
-          <span style={{ color: "hsl(215, 85%, 60%)" }}>Assessment</span>{" "}
+          <span style={{ color: "hsl(215, 85%, 65%)" }}>Assessment</span>{" "}
           Module
         </div>
         <div style={{
-          fontFamily: "sans-serif",
-          fontSize: 22,
-          color: "hsl(220, 15%, 60%)",
-          marginTop: 10,
+          fontFamily: BODY_FONT,
+          fontSize: 26,
+          fontWeight: 500,
+          color: "hsl(220, 30%, 75%)",
+          marginTop: 12,
+          textShadow: subtleShadow,
         }}>
           Fun, interactive tests designed as games that children love
         </div>
       </div>
 
-      {/* Screenshot showcase */}
       <div style={{
         display: "flex",
         gap: 30,
@@ -71,30 +72,25 @@ export const Scene3Assessment = () => {
               boxShadow: isActive ? "0 20px 60px hsl(215, 85%, 50%, 0.3)" : "0 10px 30px rgba(0,0,0,0.3)",
               position: "relative",
               width: isActive ? 440 : 350,
-              transition: "none",
             }}>
               <Img
                 src={staticFile(ss.src)}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                }}
+                style={{ width: "100%", height: "auto", display: "block" }}
               />
-              {/* Label overlay */}
               <div style={{
                 position: "absolute",
                 bottom: 0,
                 left: 0,
                 right: 0,
-                padding: "16px 20px",
-                background: "linear-gradient(transparent, rgba(0,0,0,0.85))",
+                padding: "20px 24px",
+                background: "linear-gradient(transparent, rgba(0,0,0,0.9))",
               }}>
                 <div style={{
-                  fontFamily: "sans-serif",
-                  fontSize: 18,
+                  fontFamily: HEADING_FONT,
+                  fontSize: 22,
                   fontWeight: 700,
                   color: "white",
+                  textShadow: "0 2px 8px rgba(0,0,0,0.9)",
                 }}>
                   {ss.label}
                 </div>
@@ -104,7 +100,6 @@ export const Scene3Assessment = () => {
         })}
       </div>
 
-      {/* Domain pills */}
       <Sequence from={20}>
         <div style={{
           position: "absolute",
@@ -121,14 +116,15 @@ export const Scene3Assessment = () => {
             return (
               <div key={d} style={{
                 opacity: pillOpacity,
-                padding: "10px 22px",
+                padding: "12px 26px",
                 borderRadius: 50,
-                background: `${colors[i]}22`,
-                border: `1.5px solid ${colors[i]}55`,
-                fontFamily: "sans-serif",
-                fontSize: 16,
-                fontWeight: 600,
+                background: `${colors[i]}33`,
+                border: `2px solid ${colors[i]}77`,
+                fontFamily: BODY_FONT,
+                fontSize: 18,
+                fontWeight: 700,
                 color: colors[i],
+                textShadow: `0 1px 8px ${colors[i]}44`,
               }}>
                 {d}
               </div>

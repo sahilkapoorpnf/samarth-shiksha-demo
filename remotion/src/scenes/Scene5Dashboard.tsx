@@ -1,4 +1,5 @@
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Img, staticFile } from "remotion";
+import { HEADING_FONT, BODY_FONT, textShadow, subtleShadow } from "../fonts";
 
 const stakeholders = [
   { emoji: "👩‍🏫", label: "Teachers", desc: "Track class progress & interventions" },
@@ -14,25 +15,24 @@ export const Scene5Dashboard = () => {
 
   return (
     <AbsoluteFill style={{ padding: "60px 100px" }}>
-      {/* Title */}
       <div style={{
         opacity: headingOpacity,
         textAlign: "center",
         marginBottom: 40,
       }}>
         <div style={{
-          fontFamily: "sans-serif",
-          fontSize: 48,
+          fontFamily: HEADING_FONT,
+          fontSize: 54,
           fontWeight: 800,
           color: "white",
+          textShadow,
         }}>
           Dashboards for{" "}
-          <span style={{ color: "hsl(158, 55%, 50%)" }}>Every Stakeholder</span>
+          <span style={{ color: "hsl(158, 55%, 55%)" }}>Every Stakeholder</span>
         </div>
       </div>
 
       <div style={{ display: "flex", gap: 40, flex: 1 }}>
-        {/* Dashboard Screenshot */}
         <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
           {(() => {
             const s = spring({ frame: frame - 10, fps, config: { damping: 18 } });
@@ -55,9 +55,8 @@ export const Scene5Dashboard = () => {
           })()}
         </div>
 
-        {/* Stakeholder cards */}
         <div style={{
-          width: 380,
+          width: 420,
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -73,30 +72,32 @@ export const Scene5Dashboard = () => {
               <div key={st.label} style={{
                 opacity,
                 transform: `translateY(${y}px)`,
-                padding: "28px 32px",
+                padding: "32px 36px",
                 borderRadius: 22,
                 background: "hsl(220, 25%, 14%)",
-                border: "1.5px solid hsl(220, 20%, 22%)",
+                border: "1.5px solid hsl(220, 20%, 25%)",
                 display: "flex",
                 alignItems: "center",
-                gap: 20,
+                gap: 24,
+                boxShadow: "0 8px 30px rgba(0,0,0,0.3)",
               }}>
-                <div style={{ fontSize: 48 }}>{st.emoji}</div>
+                <div style={{ fontSize: 52 }}>{st.emoji}</div>
                 <div>
                   <div style={{
-                    fontFamily: "sans-serif",
-                    fontSize: 24,
+                    fontFamily: HEADING_FONT,
+                    fontSize: 28,
                     fontWeight: 700,
                     color: "white",
+                    textShadow: subtleShadow,
                   }}>
                     {st.label}
                   </div>
                   <div style={{
-                    fontFamily: "sans-serif",
-                    fontSize: 16,
-                    fontWeight: 400,
-                    color: "hsl(220, 15%, 60%)",
-                    marginTop: 4,
+                    fontFamily: BODY_FONT,
+                    fontSize: 20,
+                    fontWeight: 500,
+                    color: "hsl(220, 20%, 72%)",
+                    marginTop: 6,
                   }}>
                     {st.desc}
                   </div>
