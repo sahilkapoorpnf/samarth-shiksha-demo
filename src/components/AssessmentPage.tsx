@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Headphones, CheckCircle, Eye, Ear, BookOpen, Shapes, ClipboardCheck, Brain, Sparkles, BarChart3, ArrowRight, AlertTriangle, Calculator, PenTool, Activity } from "lucide-react";
-import { useState, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 const assessments = [
   { id: "reading", label: "Reading", icon: BookOpen, disability: "Dyslexia", desc: "Tests phonemic awareness, decoding, fluency, and reading comprehension" },
@@ -28,13 +28,13 @@ const scoringRubric = [
   { range: "81-100%", level: "No Risk", color: "bg-secondary", desc: "Age-appropriate ability — continue with regular curriculum" },
 ];
 
-// Audio frequencies mapped to different assessment types for distinct sounds
-const audioConfig: Record<string, { freq: number; duration: number; label: string }> = {
-  reading: { freq: 440, duration: 1.2, label: "Reading the sentence aloud..." },
-  math: { freq: 523, duration: 0.8, label: "Playing number audio..." },
-  listening: { freq: 349, duration: 1.5, label: "Playing the story..." },
-  pattern: { freq: 392, duration: 0.6, label: "Playing pattern sound..." },
-  writing: { freq: 466, duration: 0.8, label: "Playing spelling audio..." },
+// Text-to-speech content for each assessment type
+const ttsContent: Record<string, { text: string; playingLabel: string }> = {
+  reading: { text: "The cat sat on the mat. Now answer: What did the cat sit on?", playingLabel: "Reading aloud..." },
+  math: { text: "What is five plus three? Choose the correct answer.", playingLabel: "Speaking question..." },
+  listening: { text: "Once upon a time, a beautiful blue bird sat on a tall tree and sang a lovely song. What color was the bird?", playingLabel: "Playing story..." },
+  pattern: { text: "Look at the pattern. Blue, red, blue, red, blue. What comes next?", playingLabel: "Speaking question..." },
+  writing: { text: "Spell the word: Apple. A, P, P, L, E. Apple.", playingLabel: "Speaking word..." },
 };
 
 const AssessmentPage = () => {
@@ -44,30 +44,19 @@ const AssessmentPage = () => {
   const [tappedCircles, setTappedCircles] = useState<number[]>([]);
   const [expandedFlow, setExpandedFlow] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-
   const playAudio = useCallback((type: string) => {
     if (isPlaying) return;
+    window.speechSynthesis.cancel();
+    const content = ttsContent[type];
+    if (!content) return;
     setIsPlaying(true);
-    const config = audioConfig[type] || { freq: 440, duration: 1, label: "Playing..." };
-    try {
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      }
-      const ctx = audioCtxRef.current;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = config.freq;
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + config.duration);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + config.duration);
-      setTimeout(() => setIsPlaying(false), config.duration * 1000 + 200);
-    } catch {
-      setTimeout(() => setIsPlaying(false), 1000);
-    }
+    const utterance = new SpeechSynthesisUtterance(content.text);
+    utterance.rate = 0.9;
+    utterance.pitch = 1.1;
+    utterance.lang = "en-US";
+    utterance.onend = () => setIsPlaying(false);
+    utterance.onerror = () => setIsPlaying(false);
+    window.speechSynthesis.speak(utterance);
   }, [isPlaying]);
 
   const AudioButton = ({ type, label }: { type: string; label?: string }) => (
@@ -80,7 +69,7 @@ const AssessmentPage = () => {
       }`}
     >
       {isPlaying ? (
-        <><Volume2 className="w-5 h-5 animate-bounce" /> {audioConfig[type]?.label || "Playing..."}</>
+        <><Volume2 className="w-5 h-5 animate-bounce" /> {ttsContent[type]?.playingLabel || "Speaking..."}</>
       ) : (
         <><Headphones className="w-5 h-5" /> {label || "Play Audio"}</>
       )}
