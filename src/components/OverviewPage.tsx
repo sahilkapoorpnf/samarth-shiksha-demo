@@ -14,7 +14,26 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.5, delay },
 });
 
-const OverviewPage = () => (
+const footerLinks = [
+  { label: "Disabilities", desc: "6 conditions we detect", icon: HeartPulse, tab: "disabilities" },
+  { label: "Student App", desc: "Game-based learning", icon: Smartphone, tab: "student" },
+  { label: "Assessment", desc: "AI screening tests", icon: ClipboardCheck, tab: "assessment" },
+  { label: "AI Analysis", desc: "ML-powered diagnosis", icon: Brain, tab: "analysis" },
+  { label: "Learning Games", desc: "50+ therapeutic games", icon: Gamepad2, tab: "games" },
+  { label: "Rewards", desc: "Gamification system", icon: Award, tab: "gamification" },
+  { label: "Teacher View", desc: "Educator dashboard", icon: GraduationCap, tab: "teacher" },
+  { label: "Parent View", desc: "Family reports", icon: Users, tab: "parent" },
+  { label: "Government", desc: "Policy analytics", icon: Building2, tab: "government" },
+  { label: "Hardware", desc: "Device requirements", icon: Monitor, tab: "hardware" },
+  { label: "Impact", desc: "Outcomes & metrics", icon: TrendingUp, tab: "impact" },
+  { label: "Research", desc: "Papers & references", icon: FlaskConical, tab: "research" },
+];
+
+interface OverviewProps {
+  onNavigate?: (tab: string) => void;
+}
+
+const OverviewPage = ({ onNavigate }: OverviewProps) => (
   <div className="space-y-12 pb-8">
 
     {/* ═══════════════════════ HERO — Split Narrative ═══════════════════════ */}
