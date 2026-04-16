@@ -32,14 +32,18 @@ const pages: Record<string, React.ComponentType> = {
   research: ResearchPage,
 };
 
+// Pages that use internal sidebar layout need wider container
+const widePages = new Set(["teacher", "parent", "government"]);
+
 const Index = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const Page = pages[activeTab];
+  const isWide = widePages.has(activeTab);
 
   return (
     <div className="min-h-screen bg-background">
       <BrandHeader />
-      <div className="max-w-4xl mx-auto px-4 pt-16 pb-24">
+      <div className={`mx-auto px-4 pt-16 pb-24 ${isWide ? "max-w-6xl" : "max-w-4xl"}`}>
         <AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
             <Page />

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Search, Brain, BookOpen, TrendingUp, Users, HeartPulse, Shield, Globe, Sparkles, CheckCircle2, Star } from "lucide-react";
+import { ArrowRight, Search, Brain, BookOpen, TrendingUp, Users, HeartPulse, Shield, Globe, Sparkles, CheckCircle2, Star, Eye, Headphones, Gamepad2, BarChart3, Award, Zap, Target, Layers, Wifi, WifiOff, Languages, GraduationCap, Building2 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
 
 const steps = [
@@ -20,21 +20,30 @@ const stats = [
 ];
 
 const targetUsers = [
-  { title: "Students", desc: "Children aged 5-12 in government schools who face learning challenges", icon: "🧒", color: "gradient-primary" },
-  { title: "Teachers", desc: "Government school educators monitoring student progress and applying interventions", icon: "👩‍🏫", color: "gradient-teal" },
-  { title: "Parents", desc: "Families tracking their child's development and receiving home activity guidance", icon: "👨‍👩‍👧", color: "gradient-warm" },
-  { title: "Government", desc: "Education officials analyzing district-wide data for policy decisions", icon: "🏛️", color: "gradient-purple" },
+  { title: "Students", desc: "Children aged 5-12 in government schools who face learning challenges. They interact with fun, game-based activities using headphones.", icon: "🧒", color: "gradient-primary" },
+  { title: "Teachers", desc: "Government school educators who monitor student progress, apply interventions, and receive AI-recommended teaching strategies.", icon: "👩‍🏫", color: "gradient-teal" },
+  { title: "Parents", desc: "Families tracking their child's development with simple reports and receiving daily home activity guidance.", icon: "👨‍👩‍👧", color: "gradient-warm" },
+  { title: "Government", desc: "Education officials analyzing district-wide data, disability prevalence, and budget allocation for informed policy decisions.", icon: "🏛️", color: "gradient-purple" },
+];
+
+const disabilities = [
+  { name: "Dyslexia", desc: "Difficulty reading, spelling, and decoding words", prevalence: "35%", icon: BookOpen, color: "bg-primary/10 text-primary" },
+  { name: "ADHD", desc: "Difficulty sustaining attention and controlling impulses", prevalence: "28%", icon: Eye, color: "bg-accent/10 text-accent" },
+  { name: "Dyscalculia", desc: "Difficulty understanding numbers and math concepts", prevalence: "15%", icon: Target, color: "bg-purple-500/10 text-purple-600" },
+  { name: "Dysgraphia", desc: "Difficulty with handwriting and fine motor skills", prevalence: "12%", icon: Layers, color: "bg-secondary/10 text-secondary" },
+  { name: "APD", desc: "Auditory Processing Disorder — difficulty processing sounds", prevalence: "7%", icon: Headphones, color: "bg-destructive/10 text-destructive" },
+  { name: "VPD", desc: "Visual Processing Disorder — difficulty interpreting visual info", prevalence: "3%", icon: Eye, color: "bg-primary/10 text-primary" },
 ];
 
 const features = [
-  "AI-powered learning disability detection (Dyslexia, ADHD, Dyscalculia, APD, VPD, Dysgraphia)",
-  "Headphone-based isolated learning for improved focus in noisy classrooms",
-  "Game-based therapeutic interventions mapped to specific disabilities",
-  "Real-time dashboards for teachers, parents, and government officials",
-  "Offline-first design — works without internet, syncs when available",
-  "Multi-language support for regional Indian languages",
-  "NEP 2020 & NCERT curriculum aligned content",
-  "Data privacy compliant with India's DPDP Act 2023",
+  { text: "AI-powered learning disability detection (Dyslexia, ADHD, Dyscalculia, APD, VPD, Dysgraphia)", icon: Brain },
+  { text: "Headphone-based isolated learning for improved focus in noisy classrooms", icon: Headphones },
+  { text: "Game-based therapeutic interventions mapped to specific disabilities", icon: Gamepad2 },
+  { text: "Real-time dashboards for teachers, parents, and government officials", icon: BarChart3 },
+  { text: "Offline-first design — works without internet, syncs when available", icon: WifiOff },
+  { text: "Multi-language support for regional Indian languages", icon: Languages },
+  { text: "NEP 2020 & NCERT curriculum aligned content", icon: GraduationCap },
+  { text: "Data privacy compliant with India's DPDP Act 2023", icon: Shield },
 ];
 
 const OverviewPage = () => (
@@ -50,7 +59,7 @@ const OverviewPage = () => (
           <p className="text-lg md:text-xl font-medium opacity-95 mb-1">Every Child Can Learn</p>
           <p className="text-base opacity-85 font-semibold mb-3">Identify • Support • Improve</p>
           <p className="opacity-80 text-sm mb-6 max-w-md leading-relaxed">
-            An AI-powered learning ability support system that detects learning disabilities like <strong>Dyslexia, ADHD, Dyscalculia</strong> and more in government school children — then provides personalized, game-based therapy to help them thrive.
+            An AI-powered learning ability support system that detects learning disabilities like <strong>Dyslexia, ADHD, Dyscalculia, APD, VPD & Dysgraphia</strong> in government school children — then provides personalized, game-based therapy to help them thrive.
           </p>
           <div className="flex gap-3 flex-wrap">
             <button className="gradient-warm px-6 py-3 rounded-xl font-display font-bold shadow-elevated hover:scale-105 transition-transform text-sm">
@@ -86,6 +95,30 @@ const OverviewPage = () => (
             <p className="text-[10px] text-muted-foreground mt-2 font-medium">Source: {p.source}</p>
           </motion.div>
         ))}
+      </div>
+    </section>
+
+    {/* Disabilities We Detect */}
+    <section>
+      <h2 className="section-title mb-2">6 Learning Disabilities We Detect</h2>
+      <p className="section-subtitle mb-6">Our AI identifies these conditions early so children get the right support</p>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {disabilities.map((d, i) => {
+          const Icon = d.icon;
+          return (
+            <motion.div key={d.name} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+              className="bg-card rounded-2xl shadow-card p-4 card-hover">
+              <div className={`w-10 h-10 rounded-xl ${d.color} flex items-center justify-center mb-3`}>
+                <Icon className="w-5 h-5" />
+              </div>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-display font-bold text-sm">{d.name}</h3>
+                <span className="text-[9px] font-bold bg-muted px-1.5 py-0.5 rounded-full text-muted-foreground">{d.prevalence}</span>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
 
@@ -152,13 +185,18 @@ const OverviewPage = () => (
         <h2 className="font-display font-bold text-xl">Key Features</h2>
       </div>
       <div className="grid md:grid-cols-2 gap-3">
-        {features.map((f, i) => (
-          <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
-            className="flex items-start gap-3 p-3 rounded-xl bg-muted/50">
-            <CheckCircle2 className="w-4 h-4 text-secondary mt-0.5 shrink-0" />
-            <p className="text-sm text-foreground/80">{f}</p>
-          </motion.div>
-        ))}
+        {features.map((f, i) => {
+          const Icon = f.icon;
+          return (
+            <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
+              className="flex items-start gap-3 p-3 rounded-xl bg-muted/50">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Icon className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-sm text-foreground/80">{f.text}</p>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
 
@@ -187,6 +225,27 @@ const OverviewPage = () => (
             </div>
             <h3 className="font-display font-bold">{item.title}</h3>
             <p className="text-muted-foreground text-xs mt-1 leading-relaxed">{item.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+
+    {/* Technology Stack */}
+    <section className="bg-primary/5 border border-primary/15 rounded-3xl p-6 md:p-8">
+      <h2 className="font-display font-bold text-xl text-center mb-6 flex items-center justify-center gap-2">
+        <Zap className="w-5 h-5 text-primary" /> Powered By
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          { label: "NLP & Speech AI", desc: "Natural language processing for reading assessment" },
+          { label: "Computer Vision", desc: "Handwriting and visual processing analysis" },
+          { label: "Adaptive ML", desc: "Real-time difficulty adjustment based on performance" },
+          { label: "Edge Computing", desc: "Offline-first with local AI inference on tablets" },
+        ].map((t, i) => (
+          <motion.div key={t.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+            className="bg-card rounded-xl p-4 text-center shadow-card">
+            <p className="font-display font-bold text-xs text-primary">{t.label}</p>
+            <p className="text-[10px] text-muted-foreground mt-1">{t.desc}</p>
           </motion.div>
         ))}
       </div>
