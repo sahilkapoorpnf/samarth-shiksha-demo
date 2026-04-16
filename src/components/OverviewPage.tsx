@@ -7,6 +7,7 @@ import {
   Lightbulb, Heart, Timer, Mic, PenTool, Calculator
 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
+import bannerVideo from "@/assets/happy-flow-banner.mp4.asset.json";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
