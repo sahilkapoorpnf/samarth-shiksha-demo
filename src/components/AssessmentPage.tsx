@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, Headphones, CheckCircle, Eye, Ear, BookOpen, Shapes, ClipboardCheck, Brain, Sparkles, BarChart3, ArrowRight, AlertTriangle, Calculator, PenTool, Activity } from "lucide-react";
-import { useState, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 const assessments = [
   { id: "reading", label: "Reading", icon: BookOpen, disability: "Dyslexia", desc: "Tests phonemic awareness, decoding, fluency, and reading comprehension" },
