@@ -89,10 +89,33 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
       </div>
     </section>
 
+    {/* ═══════════════════════ HAPPY FLOW VIDEO BANNER ═══════════════════════ */}
+    <section className="relative rounded-[2rem] overflow-hidden shadow-elevated">
+      <video
+        src={bannerVideo.url}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-auto object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+        <motion.div {...fadeUp(0.2)}>
+          <span className="text-xs font-bold text-primary-foreground/80 uppercase tracking-widest">The Happy Flow</span>
+          <h2 className="font-display font-bold text-2xl md:text-3xl text-primary-foreground mt-1">
+            Screen → Detect → Therapy → Growth
+          </h2>
+          <p className="text-primary-foreground/70 text-sm mt-2 max-w-xl">
+            Watch how AI-powered assessment identifies learning gaps and delivers personalized game-based therapy — helping every child unlock their full potential.
+          </p>
+        </motion.div>
+      </div>
+    </section>
+
     {/* ═══════════════════════ THE CRISIS — Bold Numbers ═══════════════════════ */}
     <section>
       <motion.div {...fadeUp(0)} className="text-center mb-8">
-        <span className="text-xs font-bold text-destructive uppercase tracking-widest">The Silent Crisis</span>
         <h2 className="section-title mt-2">Millions of Children Are Falling Behind</h2>
         <p className="section-subtitle">Learning disabilities go undetected in 90% of government schools across India</p>
       </motion.div>
