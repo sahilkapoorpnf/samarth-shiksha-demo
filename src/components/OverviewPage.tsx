@@ -209,6 +209,8 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
         </motion.div>
       </div>
     </section>
+
+    {/* ═══════════════════════ THE CRISIS — Bold Numbers ═══════════════════════ */}
     <section>
       <motion.div {...fadeUp(0)} className="text-center mb-8">
         <span className="text-xs font-bold text-destructive uppercase tracking-widest">The Silent Crisis</span>
