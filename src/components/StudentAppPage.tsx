@@ -108,24 +108,27 @@ const StudentAppPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [answeredCorrectly, setAnsweredCorrectly] = useState<boolean | null>(null);
 
+  const ttsTexts: Record<string, string> = {
+    reading: "Apple. Listen carefully. Which picture shows an apple?",
+    attention: "Tap the star when it turns green. Do not tap when it is red!",
+    math: "Show me seven. Count the blocks and find seven.",
+    memory: "Remember this sequence: three, seven, two, nine. Now repeat it back.",
+    listening: "Cat. Which word rhymes with cat?",
+  };
+
   const playAudio = useCallback(() => {
+    if (isPlaying) return;
+    window.speechSynthesis.cancel();
+    const text = ttsTexts[sampleQuestions[currentQ]?.type] || sampleQuestions[currentQ]?.question;
     setIsPlaying(true);
-    // Simulate audio playback with Web Audio API beep
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 440;
-      gain.gain.value = 0.3;
-      osc.start();
-      osc.stop(ctx.currentTime + 0.8);
-      setTimeout(() => setIsPlaying(false), 1200);
-    } catch {
-      setTimeout(() => setIsPlaying(false), 1200);
-    }
-  }, []);
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 1.1;
+    utterance.lang = "en-US";
+    utterance.onend = () => setIsPlaying(false);
+    utterance.onerror = () => setIsPlaying(false);
+    window.speechSynthesis.speak(utterance);
+  }, [isPlaying, currentQ]);
 
   const handleAnswer = (idx: number) => {
     setSelectedAnswer(idx);
