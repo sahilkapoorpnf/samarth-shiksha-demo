@@ -116,6 +116,7 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
     {/* ═══════════════════════ THE CRISIS — Bold Numbers ═══════════════════════ */}
     <section>
       <motion.div {...fadeUp(0)} className="text-center mb-8">
+        <span className="text-xs font-bold text-destructive uppercase tracking-widest">The Silent Crisis</span>
         <h2 className="section-title mt-2">Millions of Children Are Falling Behind</h2>
         <p className="section-subtitle">Learning disabilities go undetected in 90% of government schools across India</p>
       </motion.div>
