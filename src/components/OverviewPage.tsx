@@ -8,10 +8,7 @@ import {
 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
 import bdLogo from "@/assets/bitdecentro-logo-full.png";
-import phaseScreen from "@/assets/phase-screen.mp4.asset.json";
-import phaseDetect from "@/assets/phase-detect.mp4.asset.json";
-import phaseTherapy from "@/assets/phase-therapy.mp4.asset.json";
-import phaseGrowth from "@/assets/phase-growth.mp4.asset.json";
+import journeyVideo from "@/assets/full-journey-video.mp4.asset.json";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -93,45 +90,44 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
       </div>
     </section>
 
-    {/* ═══════════════════════ 4 PHASE VIDEO SHOWCASE ═══════════════════════ */}
+    {/* ═══════════════════════ JOURNEY VIDEO + PHASE CARDS ═══════════════════════ */}
     <section>
       <motion.div {...fadeUp(0)} className="text-center mb-8">
         <span className="text-xs font-bold text-primary uppercase tracking-widest">The Complete Journey</span>
         <h2 className="section-title mt-2">How AI Transforms Learning</h2>
         <p className="section-subtitle">Four phases that take a struggling child to a confident learner</p>
       </motion.div>
-      <div className="grid md:grid-cols-2 gap-5">
+
+      {/* Single video banner */}
+      <motion.div {...fadeUp(0.1)} className="relative rounded-2xl overflow-hidden shadow-elevated mb-6">
+        <video src={journeyVideo.url} autoPlay loop muted playsInline className="w-full h-auto object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 via-transparent to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+          <p className="font-display font-extrabold text-xl md:text-2xl text-primary-foreground">Screen → Detect → Therapy → Growth</p>
+          <p className="text-primary-foreground/70 text-sm mt-1">A child's complete transformation journey powered by BitDecentro AI</p>
+        </div>
+      </motion.div>
+
+      {/* 4 phase description cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { video: phaseScreen, num: "01", title: "Screen", subtitle: "AI-Powered Assessment", desc: "Children interact with age-appropriate, game-based tests across 5 cognitive domains — reading, math, attention, auditory & visual processing. Headphone-isolated sessions ensure accurate results even in noisy classrooms.", gradient: "gradient-primary", icon: ClipboardCheck },
-          { video: phaseDetect, num: "02", title: "Detect", subtitle: "Machine Learning Diagnosis", desc: "Advanced ML models analyze response patterns with 95% accuracy — detecting Dyslexia, ADHD, Dyscalculia, Dysgraphia, APD & VPD. Each child receives a detailed learning profile with severity levels and co-morbidity markers.", gradient: "gradient-purple", icon: Brain },
-          { video: phaseTherapy, num: "03", title: "Therapy", subtitle: "Game-Based Intervention", desc: "50+ therapeutic games custom-mapped to each disability type. Adaptive difficulty ensures children are challenged but not frustrated. Reward systems keep engagement high with points, badges & streaks.", gradient: "gradient-warm", icon: Gamepad2 },
-          { video: phaseGrowth, num: "04", title: "Growth", subtitle: "Measurable Improvement", desc: "Real-time progress tracking shows improvement across all cognitive domains. Quarterly re-assessments measure growth. 89% of children show measurable academic improvement within 6 months.", gradient: "gradient-teal", icon: TrendingUp },
+          { num: "01", title: "Screen", subtitle: "AI-Powered Assessment", desc: "Game-based tests across 5 cognitive domains with headphone-isolated sessions for accuracy.", gradient: "gradient-primary", icon: ClipboardCheck },
+          { num: "02", title: "Detect", subtitle: "ML Diagnosis", desc: "95% accurate detection of Dyslexia, ADHD, Dyscalculia, Dysgraphia, APD & VPD.", gradient: "gradient-purple", icon: Brain },
+          { num: "03", title: "Therapy", subtitle: "Game Interventions", desc: "50+ therapeutic games mapped to each disability with adaptive difficulty and rewards.", gradient: "gradient-warm", icon: Gamepad2 },
+          { num: "04", title: "Growth", subtitle: "Measurable Results", desc: "89% of children show academic improvement within 6 months with real-time tracking.", gradient: "gradient-teal", icon: TrendingUp },
         ].map((phase, i) => {
           const Icon = phase.icon;
           return (
-            <motion.div key={phase.title} {...fadeUp(i * 0.12)}
-              className="bg-card rounded-2xl shadow-card overflow-hidden card-hover group">
-              <div className="relative">
-                <video src={phase.video.url} autoPlay loop muted playsInline className="w-full h-48 object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent" />
-                <div className="absolute top-3 left-3">
-                  <span className={`text-[10px] font-extrabold text-primary-foreground/60 font-display`}>{phase.num}</span>
-                </div>
-                <div className="absolute bottom-3 left-4 right-4">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-8 h-8 ${phase.gradient} rounded-lg flex items-center justify-center shadow-lg`}>
-                      <Icon className="w-4 h-4 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-extrabold text-lg text-primary-foreground">{phase.title}</h3>
-                      <p className="text-[10px] text-primary-foreground/70 font-semibold">{phase.subtitle}</p>
-                    </div>
-                  </div>
-                </div>
+            <motion.div key={phase.title} {...fadeUp(0.2 + i * 0.1)}
+              className="bg-card rounded-2xl shadow-card p-5 card-hover relative overflow-hidden">
+              <div className={`absolute top-0 left-0 w-full h-1 ${phase.gradient}`} />
+              <span className="text-[10px] font-extrabold text-muted-foreground/30 font-display">{phase.num}</span>
+              <div className={`w-10 h-10 ${phase.gradient} rounded-xl flex items-center justify-center my-3 shadow-lg`}>
+                <Icon className="w-5 h-5 text-primary-foreground" />
               </div>
-              <div className="p-5">
-                <p className="text-xs text-muted-foreground leading-relaxed">{phase.desc}</p>
-              </div>
+              <h3 className="font-display font-bold text-sm">{phase.title}</h3>
+              <p className="text-[10px] font-semibold text-muted-foreground mb-1">{phase.subtitle}</p>
+              <p className="text-xs text-muted-foreground/80 leading-relaxed">{phase.desc}</p>
             </motion.div>
           );
         })}
