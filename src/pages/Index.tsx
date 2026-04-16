@@ -16,7 +16,7 @@ import HardwarePage from "@/components/HardwarePage";
 import ImpactPage from "@/components/ImpactPage";
 import ResearchPage from "@/components/ResearchPage";
 
-const pages: Record<string, React.ComponentType> = {
+const pages: Record<string, React.ComponentType<{ onNavigate?: (tab: string) => void }>> = {
   overview: OverviewPage,
   disabilities: DisabilitiesPage,
   student: StudentAppPage,
@@ -46,7 +46,7 @@ const Index = () => {
       <div className={`mx-auto px-4 pt-16 pb-24 ${isWide ? "max-w-6xl" : "max-w-4xl"}`}>
         <AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
-            <Page />
+            <Page onNavigate={setActiveTab} />
           </motion.div>
         </AnimatePresence>
       </div>
