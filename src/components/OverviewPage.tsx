@@ -7,7 +7,11 @@ import {
   Lightbulb, Heart, Timer, Mic, PenTool, Calculator
 } from "lucide-react";
 import heroImg from "@/assets/hero-children.png";
-import bannerVideo from "@/assets/happy-flow-banner.mp4.asset.json";
+import bdLogo from "@/assets/bitdecentro-logo-full.png";
+import phaseScreen from "@/assets/phase-screen.mp4.asset.json";
+import phaseDetect from "@/assets/phase-detect.mp4.asset.json";
+import phaseTherapy from "@/assets/phase-therapy.mp4.asset.json";
+import phaseGrowth from "@/assets/phase-growth.mp4.asset.json";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
