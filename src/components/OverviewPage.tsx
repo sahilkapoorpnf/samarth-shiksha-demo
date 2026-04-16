@@ -353,23 +353,11 @@ const OverviewPage = ({ onNavigate }: OverviewProps) => (
           <p className="text-primary-foreground/70 text-sm mt-2">Deep-dive into every module of Samarth Shiksha</p>
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { label: "Disabilities", desc: "6 conditions we detect", icon: HeartPulse },
-            { label: "Student App", desc: "Game-based learning", icon: Smartphone },
-            { label: "Assessment", desc: "AI screening tests", icon: ClipboardCheck },
-            { label: "AI Analysis", desc: "ML-powered diagnosis", icon: Brain },
-            { label: "Learning Games", desc: "50+ therapeutic games", icon: Gamepad2 },
-            { label: "Rewards", desc: "Gamification system", icon: Award },
-            { label: "Teacher View", desc: "Educator dashboard", icon: GraduationCap },
-            { label: "Parent View", desc: "Family reports", icon: Users },
-            { label: "Government", desc: "Policy analytics", icon: Building2 },
-            { label: "Hardware", desc: "Device requirements", icon: Monitor },
-            { label: "Impact", desc: "Outcomes & metrics", icon: TrendingUp },
-            { label: "Research", desc: "Papers & references", icon: FlaskConical },
-          ].map((item, i) => {
+          {footerLinks.map((item, i) => {
             const Icon = item.icon;
             return (
               <motion.div key={item.label} {...fadeUp(i * 0.04)}
+                onClick={() => onNavigate?.(item.tab)}
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.03] group">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-primary-foreground/15 flex items-center justify-center shrink-0 group-hover:bg-primary-foreground/25 transition-colors">
